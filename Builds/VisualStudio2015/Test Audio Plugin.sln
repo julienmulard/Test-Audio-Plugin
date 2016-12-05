@@ -1,0 +1,19 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2015
+Project("{79B6AFB7-12BC-2DE4-A867-F697922EF987}") = "Test Audio Plugin", "Test Audio Plugin.vcxproj", "{DEC0C930-4AA1-6CA4-78A1-B8374A8410A8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DEC0C930-4AA1-6CA4-78A1-B8374A8410A8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{DEC0C930-4AA1-6CA4-78A1-B8374A8410A8}.Debug|Win32.Build.0 = Debug|Win32
+		{DEC0C930-4AA1-6CA4-78A1-B8374A8410A8}.Release|Win32.ActiveCfg = Release|Win32
+		{DEC0C930-4AA1-6CA4-78A1-B8374A8410A8}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
