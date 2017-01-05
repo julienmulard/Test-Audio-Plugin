@@ -25,15 +25,15 @@ NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor (NewProjectAudioP
     setSize (400, 300);
 
 	paramSliders.add(&cutoffSlider);
-	cutoffSlider.setSliderStyle(Slider::Rotary);
-	cutoffSlider.setRange(20, 20000);
+	cutoffSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+	cutoffSlider.setRange(20.0f, 20000.0f);
 	cutoffSlider.setTextValueSuffix(" Hz");
 	cutoffSlider.addListener(this);
 	cutoffSlider.setValue(1000);
 	
 	paramSliders.add(&resoSlider);
-	resoSlider.setSliderStyle(Slider::Rotary);
-	resoSlider.setRange(0.5, 10);
+	resoSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
+	resoSlider.setRange(0.5f, 3-.0f);
 	resoSlider.addListener(this);
 	resoSlider.setValue(0.5);
 
@@ -78,7 +78,7 @@ void NewProjectAudioProcessorEditor::sliderValueChanged(Slider* slider)
 		*param = (float)slider->getValue();
 	}
 }
-
+     
 
 AudioParameterFloat* NewProjectAudioProcessorEditor:: getParameterForSlider(Slider* slider)
 {

@@ -29,8 +29,8 @@ NewProjectAudioProcessor::NewProjectAudioProcessor()
 	LowPassFilter[0] = MyLowPassFilter(1000, 0.5, 44100);
 	LowPassFilter[1] = MyLowPassFilter(1000, 0.5, 44100);
 
-	addParameter(cutoff = new AudioParameterFloat("cutoff", "Cutoff", NormalisableRange<float>(20.0f, 20000.0f, 0, 0.5), 1000.0f));
-	addParameter(reso = new AudioParameterFloat("reso", "Resonnance", NormalisableRange<float>(0.5f, 10.0f, 0), 0.5f));
+	addParameter(cutoff = new AudioParameterFloat("cutoff", "Cutoff", NormalisableRange<float>(20.0f, 20000.0f, 0, 1), 1000.0f));
+	addParameter(reso = new AudioParameterFloat("reso", "Resonnance", NormalisableRange<float>(0.5f, 3.0f, 0), 0.5f));
 }
 
 NewProjectAudioProcessor::~NewProjectAudioProcessor()
