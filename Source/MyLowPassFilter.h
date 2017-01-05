@@ -6,7 +6,7 @@ class MyLowPassFilter
 {
 public:
 	MyLowPassFilter();
-	MyLowPassFilter (float cutoff, float Q, float sampleRate)
+	MyLowPassFilter(float cutoff, float Q, float sampleRate);
 	
 	~MyLowPassFilter();
 
@@ -14,6 +14,7 @@ public:
 	void setQ(float Q);
 	void setFilter(float cutoff, float Q);
 
+	float filter(float input);
 
 private:
 	//The filter parameters
@@ -33,6 +34,9 @@ private:
 	float mC0;
 	float mAlpha;
 	
+	//Memories for the actual filtering
+	float mMemIn[2];
+	float mMemOut[2];
 
 	//Methods
 	void mComputeFilterCoefficients();
