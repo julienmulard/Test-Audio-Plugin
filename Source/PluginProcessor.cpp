@@ -164,7 +164,7 @@ void NewProjectAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuff
 			LowPassFilter[channel].setFilter(*cutoff, *reso);
 
 			float* channelData = buffer.getWritePointer(channel);
-			channelData[inputSample] = LowPassFilter[channel].filter(channelData[inputSample])+10e-20;
+			channelData[inputSample] = LowPassFilter[channel].filter(channelData[inputSample]);
 
 		}
 	}

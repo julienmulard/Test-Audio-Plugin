@@ -23,13 +23,14 @@ NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor (NewProjectAudioP
     // editor's size to whatever you need it to be.
 	//Youpi
     setSize (400, 300);
-
+	
 	paramSliders.add(&cutoffSlider);
 	cutoffSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
 	cutoffSlider.setRange(20.0f, 20000.0f);
 	cutoffSlider.setTextValueSuffix(" Hz");
 	cutoffSlider.addListener(this);
 	cutoffSlider.setValue(1000);
+	cutoffSlider.setSkewFactor(0.1);
 	
 	paramSliders.add(&resoSlider);
 	resoSlider.setSliderStyle(Slider::RotaryHorizontalVerticalDrag);
@@ -43,6 +44,7 @@ NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor (NewProjectAudioP
 
 NewProjectAudioProcessorEditor::~NewProjectAudioProcessorEditor()
 {
+	paramSliders.clear(false);
 }
 
 //==============================================================================

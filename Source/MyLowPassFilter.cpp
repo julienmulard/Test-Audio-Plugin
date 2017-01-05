@@ -43,7 +43,7 @@ void MyLowPassFilter::setCutoff(float cutoff)
 void MyLowPassFilter::setQ(float Q)
 {
 	mQ = Q;
-	m1_Q = 1 / mQ;
+	m1_Q = 1.0f / mQ;
 	mComputeFilterCoefficients();
 }
 
@@ -51,7 +51,7 @@ void MyLowPassFilter::setFilter(float cutoff, float Q)
 {
 	mCutoffFrequency = cutoff;
 	mQ = Q;
-	m1_Q = 1 / mQ;
+	m1_Q = 1.0f / mQ;
 	mComputeFilterCoefficients();
 }
 
@@ -59,31 +59,31 @@ void MyLowPassFilter::setFilter(float cutoff, float Q)
 void MyLowPassFilter::setSampleRate(float sampleRate)
 {
 	mSampleRate = sampleRate;
-	m1_Fs = 1 / mSampleRate;
+	m1_Fs = 1.0f / mSampleRate;
 	mComputeFilterCoefficients();
 }
 
 void MyLowPassFilter::mComputeFilterCoefficients()
 {
-	mW0 = 2 * M_PI * mCutoffFrequency * m1_Fs;
+	mW0 = 2.0f * float(M_PI) * mCutoffFrequency * m1_Fs;
 
 	mC0 = cos(mW0);
 	mS0 = sin(mW0);
 
 	mAlpha = 0.5 * mS0 * m1_Q;
 
-	mB[0] = (1 - mC0) * 0.5;
-	mB[1] = 1 - mC0;
-	mB[2] = (1 - mC0) * 0.5;
-	mA[0] = 1 + mAlpha;
-	mA[1] = -2 * mC0;
-	mA[2] = 1 - mAlpha;
+	mB[0] = (1.0f - mC0) * 0.5f;
+	mB[1] = 1.0f - mC0;
+	mB[2] = (1.0f - mC0) * 0.5f;
+	mA[0] = 1.0f + mAlpha;
+	mA[1] = -2.0f * mC0;
+	mA[2] = 1.0f - mAlpha;
 }
 
 
 float MyLowPassFilter::filter(float input) 
 {
-	float output = (mB[0] * input + mB[1] * mMemIn[0] + mB[2] * mMemIn[1] - mA[1] * mMemOut[0] - mA[2] * mMemOut[1]) / mA[0];
+	float output = (mB[0] * input + mB[1] * mMemIn[0] + mB[2] * mMemIn[1] - mA[1] * mMemOut[0] - mA[2] * mMemOut[1]) / mA[0]+10e-20;
 
 	mMemIn[1] = mMemIn[0];
 	mMemIn[0] = input;
