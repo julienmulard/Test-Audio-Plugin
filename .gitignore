@@ -30,3 +30,6 @@ _ReSharper*/
 .vs/
 #Nuget packages folder
 packages/
+Builds/VisualStudio2015/Test Audio Plugin.VC.db
+Builds/VisualStudio2015/Test Audio Plugin.VC.VC.opendb
+Builds/VisualStudio2015/Test Audio Plugin.VC.db
