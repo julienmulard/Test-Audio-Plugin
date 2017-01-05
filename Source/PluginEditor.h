@@ -18,8 +18,8 @@
 //==============================================================================
 /**
 */
-class NewProjectAudioProcessorEditor  : public AudioProcessorEditor//,
-										//public SliderListener
+class NewProjectAudioProcessorEditor  : public AudioProcessorEditor,
+										public SliderListener
 {
 public:
     NewProjectAudioProcessorEditor (NewProjectAudioProcessor&);
@@ -39,6 +39,13 @@ private:
 
 	Slider resoSlider;
 	//Label resoLabel;
+
+	void sliderValueChanged(Slider* slider) override;
+
+
+	OwnedArray<Slider> paramSliders;
+
+	AudioParameterFloat* getParameterForSlider(Slider* slider);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NewProjectAudioProcessorEditor)
 };

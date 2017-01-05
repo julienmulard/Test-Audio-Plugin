@@ -59,6 +59,9 @@ public:
 
 private:
 	MyLowPassFilter LowPassFilter[2];
+
+	AudioParameterFloat* cutoff;
+	AudioParameterFloat* reso;
     //==============================================================================
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(NewProjectAudioProcessor)
 

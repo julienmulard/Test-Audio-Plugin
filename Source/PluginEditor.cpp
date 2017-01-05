@@ -16,26 +16,29 @@
 NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor (NewProjectAudioProcessor& p)
     : AudioProcessorEditor (&p), processor (p)
 {
+
+	
+
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
 	//Youpi
     setSize (400, 300);
 
+	paramSliders.add(&cutoffSlider);
 	cutoffSlider.setSliderStyle(Slider::Rotary);
 	cutoffSlider.setRange(20, 20000);
 	cutoffSlider.setTextValueSuffix(" Hz");
-	//cutoffSlider.addListener(this);
+	cutoffSlider.addListener(this);
 	cutoffSlider.setValue(1000);
 	
-
+	paramSliders.add(&resoSlider);
 	resoSlider.setSliderStyle(Slider::Rotary);
 	resoSlider.setRange(0.5, 10);
-	//resoSlider.addListener(this);
+	resoSlider.addListener(this);
 	resoSlider.setValue(0.5);
 
 	addAndMakeVisible(&cutoffSlider);
 	addAndMakeVisible(&resoSlider);
-
 }
 
 NewProjectAudioProcessorEditor::~NewProjectAudioProcessorEditor()
@@ -52,13 +55,33 @@ void NewProjectAudioProcessorEditor::paint (Graphics& g)
     g.drawFittedText ("Hello World!", getLocalBounds(), Justification::centred, 1);
 
 	
-	cutoffSlider.setBounds(50, 150, 100, 100);
 	
-	resoSlider.setBounds(250, 150, 100, 100);
 }
 
 void NewProjectAudioProcessorEditor::resized()
 {
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
+
+	cutoffSlider.setBounds(50, 150, 100, 100);
+
+	resoSlider.setBounds(250, 150, 100, 100);
+
+
+}
+
+void NewProjectAudioProcessorEditor::sliderValueChanged(Slider* slider)
+{
+	const OwnedArray<AudioProcessorParameter>& params = processor.getParameters();
+	if (AudioParameterFloat* param= getParameterForSlider(slider))
+	{
+		*param = (float)slider->getValue();
+	}
+}
+
+
+AudioParameterFloat* NewProjectAudioProcessorEditor:: getParameterForSlider(Slider* slider)
+{
+	const OwnedArray<AudioProcessorParameter>& params = getAudioProcessor()->getParameters();
+	return dynamic_cast<AudioParameterFloat*> (params[paramSliders.indexOf(slider)]);
 }
