@@ -56,6 +56,13 @@ void MyLowPassFilter::setFilter(float cutoff, float Q)
 }
 
 
+void MyLowPassFilter::setSampleRate(float sampleRate)
+{
+	mSampleRate = sampleRate;
+	m1_Fs = 1 / mSampleRate;
+	mComputeFilterCoefficients();
+}
+
 void MyLowPassFilter::mComputeFilterCoefficients()
 {
 	mW0 = 2 * M_PI * mCutoffFrequency * m1_Fs;

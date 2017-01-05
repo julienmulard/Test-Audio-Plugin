@@ -14,6 +14,8 @@ public:
 	void setQ(float Q);
 	void setFilter(float cutoff, float Q);
 
+	void setSampleRate(float sampleRate);
+
 	float filter(float input);
 
 private:

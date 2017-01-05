@@ -25,6 +25,9 @@ NewProjectAudioProcessor::NewProjectAudioProcessor()
                        )
 #endif
 {
+
+	LowPassFilter[0] = MyLowPassFilter(1000, 1, 44100);
+	LowPassFilter[1] = MyLowPassFilter(1000, 1, 44100);
 }
 
 NewProjectAudioProcessor::~NewProjectAudioProcessor()
@@ -89,6 +92,8 @@ void NewProjectAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
+	LowPassFilter[0].setSampleRate(float(sampleRate));
+	LowPassFilter[1].setSampleRate(float(sampleRate));
 }
 
 void NewProjectAudioProcessor::releaseResources()
@@ -141,7 +146,10 @@ void NewProjectAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuff
     {
         float* channelData = buffer.getWritePointer (channel);
 
-        // ..do something to the data...
+		for (int inputSample = 0; inputSample < buffer.getNumSamples(); inputSample++)
+		{
+			channelData[inputSample] = LowPassFilter[channel].filter(channelData[inputSample]);
+		}
     }
 }
 
