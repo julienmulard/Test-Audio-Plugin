@@ -18,7 +18,8 @@
 //==============================================================================
 /**
 */
-class NewProjectAudioProcessorEditor  : public AudioProcessorEditor
+class NewProjectAudioProcessorEditor  : public AudioProcessorEditor//,
+										//public SliderListener
 {
 public:
     NewProjectAudioProcessorEditor (NewProjectAudioProcessor&);
@@ -32,6 +33,12 @@ private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     NewProjectAudioProcessor& processor;
+
+	Slider cutoffSlider;
+	//Label cutoffLabel;
+
+	Slider resoSlider;
+	//Label resoLabel;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NewProjectAudioProcessorEditor)
 };
