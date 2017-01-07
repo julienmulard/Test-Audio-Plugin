@@ -57,8 +57,14 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+
+	enum paramIndex {kCutoff = 0, kReso};
+
 private:
 	MyLowPassFilter LowPassFilter[2];
+
+	AudioParameterFloat* cutoff;
+	AudioParameterFloat* reso;
     //==============================================================================
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(NewProjectAudioProcessor)
 
