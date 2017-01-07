@@ -1,26 +1,5 @@
 #include "MyLowPassFilter.h"
 
-MyLowPassFilter::MyLowPassFilter()
-{
-	mSampleRate = 44100.0;
-	mCutoffFrequency = 22050.0;
-	mQ = 0;
-
-	m1_Fs = 1 / mSampleRate;
-
-	mComputeFilterCoefficients();
-
-	mMemIn[0] = 0.0f;
-	mMemIn[1] = 0.0f;
-	mMemOut[0] = 0.0f;
-	mMemOut[1] = 0.0f;
-}
-
-MyLowPassFilter::~MyLowPassFilter()
-{
-
-}
-
 MyLowPassFilter::MyLowPassFilter(float cutoff, float Q, float sampleRate)
 {
 	mSampleRate = sampleRate;
@@ -38,6 +17,10 @@ MyLowPassFilter::MyLowPassFilter(float cutoff, float Q, float sampleRate)
 	mMemOut[1] = 0.0f;
 }
 
+MyLowPassFilter::~MyLowPassFilter()
+{
+
+}
 
 void MyLowPassFilter::setCutoff(float cutoff)
 {
@@ -88,7 +71,7 @@ void MyLowPassFilter::mComputeFilterCoefficients()
 
 float MyLowPassFilter::filter(float input) 
 {
-	float output = (mB[0] * input + mB[1] * mMemIn[0] + mB[2] * mMemIn[1] - mA[1] * mMemOut[0] - mA[2] * mMemOut[1]) / mA[0] +10e-20;
+	float output = (mB[0] * input + mB[1] * mMemIn[0] + mB[2] * mMemIn[1] - mA[1] * mMemOut[0] - mA[2] * mMemOut[1]) / mA[0] +10e-20f;
 
 	mMemIn[1] = mMemIn[0];
 	mMemIn[0] = input;
