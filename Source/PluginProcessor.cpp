@@ -26,11 +26,13 @@ NewProjectAudioProcessor::NewProjectAudioProcessor()
 #endif
 {
 
-	LowPassFilter[0] = MyLowPassFilter(1000, 0.5, 44100);
-	LowPassFilter[1] = MyLowPassFilter(1000, 0.5, 44100);
-
-	addParameter(cutoff = new AudioParameterFloat("cutoff", "Cutoff", NormalisableRange<float>(20.0f, 20000.0f, 0, 1), 1000.0f));
+	addParameter(cutoff = new AudioParameterFloat("cutoff", "Cutoff", NormalisableRange<float>(20.0f, 22000.0f, 0, 0.2), 1000.0f));
 	addParameter(reso = new AudioParameterFloat("reso", "Resonnance", NormalisableRange<float>(0.5f, 3.0f, 0), 0.5f));
+
+	LowPassFilter[0] = MyLowPassFilter(*cutoff, *reso, 44100);
+	LowPassFilter[1] = MyLowPassFilter(*cutoff, *reso, 44100);
+
+
 }
 
 NewProjectAudioProcessor::~NewProjectAudioProcessor()
@@ -145,7 +147,7 @@ void NewProjectAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuff
 
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
+/*    for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         float* channelData = buffer.getWritePointer (channel);
 
@@ -155,7 +157,7 @@ void NewProjectAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuff
 			channelData[inputSample] = LowPassFilter[channel].filter(channelData[inputSample]);
 		}
     }
-
+*/
 	for (int inputSample = 0; inputSample < buffer.getNumSamples(); inputSample++)
 	{
 		for (int channel = 0; channel < totalNumInputChannels; ++channel)

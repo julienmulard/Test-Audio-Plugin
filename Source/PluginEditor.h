@@ -44,8 +44,11 @@ private:
 
 
 	OwnedArray<Slider> paramSliders;
+	
 
 	AudioParameterFloat* getParameterForSlider(Slider* slider);
+
+	void createSliderForParam(const AudioParameterFloat* param, String suffix = "", juce::Slider::SliderStyle sliderStyle = Slider::RotaryHorizontalVerticalDrag);
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NewProjectAudioProcessorEditor)
 };

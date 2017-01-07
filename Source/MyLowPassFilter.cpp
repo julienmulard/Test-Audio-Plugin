@@ -13,7 +13,7 @@ MyLowPassFilter::MyLowPassFilter()
 	mMemIn[0] = 0.0;
 	mMemIn[1] = 0.0;
 	mMemOut[0] = 0.0;
-	mMemOut[2] = 0.0;
+	mMemOut[1] = 0.0;
 }
 
 MyLowPassFilter::~MyLowPassFilter()

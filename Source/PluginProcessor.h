@@ -57,6 +57,9 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+
+	enum paramIndex {kCutoff = 0, kReso};
+
 private:
 	MyLowPassFilter LowPassFilter[2];
 
