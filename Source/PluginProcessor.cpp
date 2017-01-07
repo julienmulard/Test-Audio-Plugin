@@ -147,17 +147,17 @@ void NewProjectAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuff
 
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
-/*    for (int channel = 0; channel < totalNumInputChannels; ++channel)
+ /*   for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         float* channelData = buffer.getWritePointer (channel);
 
 		for (int inputSample = 0; inputSample < buffer.getNumSamples(); inputSample++)
 		{
-			
+			LowPassFilter[channel].setFilter(*cutoff, *reso);
 			channelData[inputSample] = LowPassFilter[channel].filter(channelData[inputSample]);
 		}
-    }
-*/
+    }*/
+
 	for (int inputSample = 0; inputSample < buffer.getNumSamples(); inputSample++)
 	{
 		for (int channel = 0; channel < totalNumInputChannels; ++channel)
