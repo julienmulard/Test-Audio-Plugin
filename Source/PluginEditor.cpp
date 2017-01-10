@@ -26,13 +26,25 @@ NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor (NewProjectAudioP
 	
 	const OwnedArray<AudioProcessorParameter>& params = getAudioProcessor()->getParameters();
 
-	if (const AudioParameterFloat* param = dynamic_cast<AudioParameterFloat*> (params[p.kCutoff])) {
-		createSliderForParam(param, " Hz");
+	if (const AudioParameterFloat* paramf = dynamic_cast<AudioParameterFloat*> (params[p.kCutoff])) {
+		createSliderForParam(paramf, " Hz");
 	}
 	
-	if (const AudioParameterFloat* param = dynamic_cast<AudioParameterFloat*> (params[p.kReso])) {
-		createSliderForParam(param);
+	if (const AudioParameterFloat* paramf = dynamic_cast<AudioParameterFloat*> (params[p.kReso])) {
+		createSliderForParam(paramf);
 	}
+
+	if (const AudioParameterChoice* paramc = dynamic_cast<AudioParameterChoice*> (params[p.kFilterType])) {
+		filterTypeCB = new ComboBox(paramc->name);
+		for (int i = 0; i < paramc->choices.size(); i++) {
+			filterTypeCB->addItem(paramc->choices[i], i+1);
+		}
+		filterTypeCB->setSelectedId(0);
+		filterTypeCB->addListener(this);
+		addAndMakeVisible(filterTypeCB);
+	}
+
+
 
 	setSize(400, 300);
 
@@ -81,6 +93,8 @@ void NewProjectAudioProcessorEditor::resized()
 	paramSliders[processor.kCutoff]->setBounds(50, 50, 100, 100);
 	paramSliders[processor.kReso]->setBounds(250, 50, 100, 100);
 
+	filterTypeCB->setBounds(50, 150, 100, 100);
+
 	/*cutoffSlider.setBounds(50, 150, 100, 100);
 
 	resoSlider.setBounds(250, 150, 100, 100);*/
@@ -96,7 +110,17 @@ void NewProjectAudioProcessorEditor::sliderValueChanged(Slider* slider)
 		*param = (float)slider->getValue();
 	}
 }
-     
+   
+
+void NewProjectAudioProcessorEditor::comboBoxChanged(ComboBox* comboBox)
+{
+	const OwnedArray<AudioProcessorParameter>& params = processor.getParameters();
+	if (comboBox == filterTypeCB) 
+	{
+		AudioParameterChoice* param = dynamic_cast<AudioParameterChoice*> (params[processor.kFilterType]);
+		*param = comboBox->getSelectedId()-1;
+	}
+}
 
 void NewProjectAudioProcessorEditor::createSliderForParam(const AudioParameterFloat* param, String suffix, juce::Slider::SliderStyle sliderStyle)
 {

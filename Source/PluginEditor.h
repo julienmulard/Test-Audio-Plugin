@@ -19,7 +19,8 @@
 /**
 */
 class NewProjectAudioProcessorEditor  : public AudioProcessorEditor,
-										public SliderListener
+										public SliderListener,
+										public ComboBoxListener
 {
 public:
     NewProjectAudioProcessorEditor (NewProjectAudioProcessor&);
@@ -40,8 +41,11 @@ private:
 	Slider resoSlider;
 	//Label resoLabel;
 
+	ComboBox* filterTypeCB;
+
 	void sliderValueChanged(Slider* slider) override;
 
+	void comboBoxChanged(ComboBox* comboBox) override;
 
 	OwnedArray<Slider> paramSliders;
 	

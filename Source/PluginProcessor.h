@@ -13,6 +13,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "MyLowPassFilter.h"
+#include "MyHighPassFilter.h"
 
 
 //==============================================================================
@@ -58,13 +59,16 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
 
-	enum paramIndex {kCutoff = 0, kReso};
+	enum paramIndex {kCutoff = 0, kReso, kFilterType};
 
 private:
 	MyLowPassFilter LowPassFilter[2];
+	MyHighPassFilter HighPassFilter[2];
 
 	AudioParameterFloat* cutoff;
 	AudioParameterFloat* reso;
+
+	AudioParameterChoice* filterType;
     //==============================================================================
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(NewProjectAudioProcessor)
 

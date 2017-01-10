@@ -28,11 +28,17 @@ NewProjectAudioProcessor::NewProjectAudioProcessor()
 
 	addParameter(cutoff = new AudioParameterFloat("cutoff", "Cutoff", NormalisableRange<float>(20.0f, 22000.0f, 0.0f, 0.2f), 1000.0f));
 	addParameter(reso = new AudioParameterFloat("reso", "Resonnance", NormalisableRange<float>(0.5f, 3.0f, 0.0f), 0.5f));
+	
+	StringArray filterTypeList = { "Low Pass Filter", "High Pass Filter" };
+
+	addParameter(filterType = new AudioParameterChoice("filterType", "FilterType", filterTypeList ,0));
 
 	LowPassFilter[0] = MyLowPassFilter(*cutoff, *reso, 44100);
 	LowPassFilter[1] = MyLowPassFilter(*cutoff, *reso, 44100);
 
-
+	HighPassFilter[0] = MyHighPassFilter(*cutoff, *reso, 44100);
+	HighPassFilter[1] = MyHighPassFilter(*cutoff, *reso, 44100);
+	
 }
 
 NewProjectAudioProcessor::~NewProjectAudioProcessor()
@@ -99,6 +105,9 @@ void NewProjectAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
     // initialisation that you need..
 	LowPassFilter[0].setSampleRate(float(sampleRate));
 	LowPassFilter[1].setSampleRate(float(sampleRate));
+
+	HighPassFilter[0].setSampleRate(float(sampleRate));
+	HighPassFilter[1].setSampleRate(float(sampleRate));
 }
 
 void NewProjectAudioProcessor::releaseResources()
@@ -163,11 +172,20 @@ void NewProjectAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuff
 		for (int channel = 0; channel < totalNumInputChannels; ++channel)
 		{
 
-			LowPassFilter[channel].setFilter(*cutoff, *reso);
-
 			float* channelData = buffer.getWritePointer(channel);
-			channelData[inputSample] = LowPassFilter[channel].filter(channelData[inputSample]);
 
+
+
+			if (filterType->getIndex() == 0) {
+				LowPassFilter[channel].setFilter(*cutoff, *reso);
+				channelData[inputSample] = LowPassFilter[channel].filter(channelData[inputSample]);
+			}
+			else if (filterType->getIndex() == 1) {
+				HighPassFilter[channel].setFilter(*cutoff, *reso);
+				channelData[inputSample] = HighPassFilter[channel].filter(channelData[inputSample]);
+
+			}
+			
 		}
 	}
 
