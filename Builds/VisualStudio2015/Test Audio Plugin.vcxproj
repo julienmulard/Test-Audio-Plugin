@@ -133,8 +133,10 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\MyFilter.cpp" />
     <ClCompile Include="..\..\Source\MyHighPassFilter.cpp" />
     <ClCompile Include="..\..\Source\MyLowPassFilter.cpp" />
+    <ClCompile Include="..\..\Source\MyNotchFilter.cpp" />
     <ClCompile Include="..\..\Source\PluginProcessor.cpp" />
     <ClCompile Include="..\..\Source\PluginEditor.cpp" />
     <ClCompile Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
@@ -1792,8 +1794,10 @@
     <ClCompile Include="..\..\JuceLibraryCode\juce_video.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\MyFilter.h" />
     <ClInclude Include="..\..\Source\MyHighPassFilter.h" />
     <ClInclude Include="..\..\Source\MyLowPassFilter.h" />
+    <ClInclude Include="..\..\Source\MyNotchFilter.h" />
     <ClInclude Include="..\..\Source\PluginProcessor.h" />
     <ClInclude Include="..\..\Source\PluginEditor.h" />
     <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.h" />

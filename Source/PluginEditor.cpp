@@ -93,7 +93,7 @@ void NewProjectAudioProcessorEditor::resized()
 	paramSliders[processor.kCutoff]->setBounds(50, 50, 100, 100);
 	paramSliders[processor.kReso]->setBounds(250, 50, 100, 100);
 
-	filterTypeCB->setBounds(50, 150, 100, 100);
+	filterTypeCB->setBounds(50, 150, 100, 20);
 
 	/*cutoffSlider.setBounds(50, 150, 100, 100);
 
@@ -104,7 +104,7 @@ void NewProjectAudioProcessorEditor::resized()
 
 void NewProjectAudioProcessorEditor::sliderValueChanged(Slider* slider)
 {
-	const OwnedArray<AudioProcessorParameter>& params = processor.getParameters();
+	//const OwnedArray<AudioProcessorParameter>& params = processor.getParameters();
 	if (AudioParameterFloat* param= getParameterForSlider(slider))
 	{
 		*param = (float)slider->getValue();

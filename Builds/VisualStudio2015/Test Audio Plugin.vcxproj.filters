@@ -2070,6 +2070,12 @@
     <ClCompile Include="..\..\Source\MyHighPassFilter.cpp">
       <Filter>Test Audio Plugin\Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\MyFilter.cpp">
+      <Filter>Test Audio Plugin\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\MyNotchFilter.cpp">
+      <Filter>Test Audio Plugin\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\PluginProcessor.h">
@@ -4045,6 +4051,26 @@
     <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_opengl\juce_opengl.h" />
     <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_video\juce_video.h" />
     <ClInclude Include="..\..\Source\MyHighPassFilter.h">
+      <Filter>Test Audio Plugin\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_basics\juce_audio_basics.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_devices\juce_audio_devices.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_formats\juce_audio_formats.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_processors\juce_audio_processors.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_core\juce_core.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_cryptography\juce_cryptography.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_data_structures\juce_data_structures.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_events\juce_events.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_graphics\juce_graphics.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_gui_basics\juce_gui_basics.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_gui_extra\juce_gui_extra.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_opengl\juce_opengl.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_video\juce_video.h" />
+    <ClInclude Include="..\..\Source\MyFilter.h">
+      <Filter>Test Audio Plugin\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\MyNotchFilter.h">
       <Filter>Test Audio Plugin\Source</Filter>
     </ClInclude>
   </ItemGroup>

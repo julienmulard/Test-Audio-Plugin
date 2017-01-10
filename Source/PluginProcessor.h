@@ -14,6 +14,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "MyLowPassFilter.h"
 #include "MyHighPassFilter.h"
+#include "MyNotchFilter.h"
 
 
 //==============================================================================
@@ -64,6 +65,7 @@ public:
 private:
 	MyLowPassFilter LowPassFilter[2];
 	MyHighPassFilter HighPassFilter[2];
+	MyNotchFilter NotchFilter[2];
 
 	AudioParameterFloat* cutoff;
 	AudioParameterFloat* reso;

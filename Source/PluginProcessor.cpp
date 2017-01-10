@@ -29,7 +29,7 @@ NewProjectAudioProcessor::NewProjectAudioProcessor()
 	addParameter(cutoff = new AudioParameterFloat("cutoff", "Cutoff", NormalisableRange<float>(20.0f, 22000.0f, 0.0f, 0.2f), 1000.0f));
 	addParameter(reso = new AudioParameterFloat("reso", "Resonnance", NormalisableRange<float>(0.5f, 3.0f, 0.0f), 0.5f));
 	
-	StringArray filterTypeList = { "Low Pass Filter", "High Pass Filter" };
+	StringArray filterTypeList = { "Low Pass Filter", "High Pass Filter", "Notch Filter" };
 
 	addParameter(filterType = new AudioParameterChoice("filterType", "FilterType", filterTypeList ,0));
 
@@ -38,6 +38,9 @@ NewProjectAudioProcessor::NewProjectAudioProcessor()
 
 	HighPassFilter[0] = MyHighPassFilter(*cutoff, *reso, 44100);
 	HighPassFilter[1] = MyHighPassFilter(*cutoff, *reso, 44100);
+
+	NotchFilter[0] = MyNotchFilter(*cutoff, *reso, 44100);
+	NotchFilter[1] = MyNotchFilter(*cutoff, *reso, 44100);
 	
 }
 
@@ -185,7 +188,11 @@ void NewProjectAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuff
 				channelData[inputSample] = HighPassFilter[channel].filter(channelData[inputSample]);
 
 			}
-			
+			else if (filterType->getIndex() == 2) {
+				NotchFilter[channel].setFilter(*cutoff, *reso);
+				channelData[inputSample] = NotchFilter[channel].filter(channelData[inputSample]);
+
+			}
 		}
 	}
 
