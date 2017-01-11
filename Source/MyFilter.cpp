@@ -82,3 +82,17 @@ float MyFilter::filter(float input)
 	return output;
 }
 
+float MyFilter::getFreqencyResponse(float f) {
+	std::complex<float> z(cos(2 * M_PI*f * m1_Fs), sin(2 * M_PI*f * m1_Fs));
+	std::complex<float> z2 = z*z;
+
+	std::complex<float> h = (mB[0] * z2 + mB[1] * z + mB[2]) / (mA[0] * z2 + mA[1] * z + mA[2]);
+
+	float abs_h = std::abs(h);
+	float h_db = 20 * log10(abs_h);
+
+	//return 20* std::log10f(std::abs(h));
+	return h_db;
+
+}
+

@@ -62,6 +62,11 @@ public:
 
 	enum paramIndex {kCutoff = 0, kReso, kFilterType};
 
+	Array<float> frequencyResponse;
+	Array<float> frequencies;
+
+	Array<float> getFrequencyResponse();
+
 private:
 	MyLowPassFilter LowPassFilter[2];
 	MyHighPassFilter HighPassFilter[2];

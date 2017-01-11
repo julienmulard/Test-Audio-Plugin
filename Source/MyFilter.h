@@ -1,5 +1,6 @@
 #pragma once
 #include <cmath>
+#include <complex>
 # define M_PI           3.14159265358979323846  /* pi */
 
 class MyFilter
@@ -16,6 +17,8 @@ public:
 	void setSampleRate(float sampleRate);
 
 	float filter(float input);
+
+	float getFreqencyResponse(float f);
 
 protected:
 	//The filter parameters
@@ -41,5 +44,6 @@ protected:
 
 	//Methods
 	virtual void mComputeFilterCoefficients();
+	
 
 };

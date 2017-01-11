@@ -49,6 +49,7 @@ private:
 
 	OwnedArray<Slider> paramSliders;
 	
+	Path* filterResponse;
 
 	AudioParameterFloat* getParameterForSlider(Slider* slider);
 

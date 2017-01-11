@@ -44,6 +44,11 @@ NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor (NewProjectAudioP
 		addAndMakeVisible(filterTypeCB);
 	}
 
+	filterResponse = new Path();
+	//filterResponse->startNewSubPath(0, 200);
+	//filterResponse->lineTo(150, 200);
+	//filterResponse->lineTo(250, 300);
+	//filterResponse->closeSubPath();
 
 
 	setSize(400, 300);
@@ -80,9 +85,31 @@ void NewProjectAudioProcessorEditor::paint (Graphics& g)
     g.setColour (Colours::black);
     g.setFont (15.0f);
     g.drawFittedText ("Hello World!", getLocalBounds(), Justification::centred, 1);
+	
 
-	
-	
+	Array<float> frequencyResponse = processor.getFrequencyResponse();
+
+	//sur x, on mappe 20 à 0 et 20000 à 400 logarithmiquement (trop de h)
+	//sur y, on mappe 0 à 200, +15 à 160.
+
+	float offset = log10f(processor.frequencies[0]);
+
+	filterResponse->startNewSubPath(0, 250 - frequencyResponse[0]*10);
+	for (int i = 1; i < frequencyResponse.size(); i++) {
+		
+		float freq = processor.frequencies[i];
+		float log_freq = log10f(freq);
+		float x = (log_freq  - offset)*120;
+
+		float response = frequencyResponse[i]*10;
+		float y = 250 - response;
+		filterResponse->lineTo(x, y);
+		
+		//filterResponse->lineTo(log10f(processor.frequencies[i])-offset, 200 - frequencyResponse[i]);
+	}
+
+	g.strokePath(*filterResponse, PathStrokeType(2.0f));
+	filterResponse->clear();
 }
 
 void NewProjectAudioProcessorEditor::resized()
@@ -108,6 +135,7 @@ void NewProjectAudioProcessorEditor::sliderValueChanged(Slider* slider)
 	if (AudioParameterFloat* param= getParameterForSlider(slider))
 	{
 		*param = (float)slider->getValue();
+		repaint();
 	}
 }
    

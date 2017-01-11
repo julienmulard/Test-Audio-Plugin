@@ -42,6 +42,16 @@ NewProjectAudioProcessor::NewProjectAudioProcessor()
 	NotchFilter[0] = MyNotchFilter(*cutoff, *reso, 44100);
 	NotchFilter[1] = MyNotchFilter(*cutoff, *reso, 44100);
 	
+	frequencyResponse = { 0 };
+	
+	float log_start = log(20);
+	float log_stop = log(22049);
+	float step = exp((log_stop - log_start)*0.01);	
+	frequencies.add(20);
+	for (int i = 1; i < 100; i++) {
+		frequencies.add(frequencies[i-1]*step);
+
+	}
 }
 
 NewProjectAudioProcessor::~NewProjectAudioProcessor()
@@ -228,4 +238,33 @@ void NewProjectAudioProcessor::setStateInformation (const void* data, int sizeIn
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new NewProjectAudioProcessor();
+}
+
+Array<float> NewProjectAudioProcessor::getFrequencyResponse()
+{
+	frequencyResponse.clearQuick();
+
+	if (filterType->getIndex() == 0) 
+	{
+		for (int i =0; i<frequencies.size(); i++)
+		{
+			frequencyResponse.add(LowPassFilter[0].getFreqencyResponse(frequencies[i]));
+		}
+	}
+	else if (filterType->getIndex() == 1)
+	{
+		for (int i = 0; i<frequencies.size(); i++)
+		{
+			frequencyResponse.add(HighPassFilter[0].getFreqencyResponse(frequencies[i]));
+		}
+	}
+	else if (filterType->getIndex() == 2)
+	{
+		for (int i = 0; i<frequencies.size(); i++)
+		{
+			frequencyResponse.add(NotchFilter[0].getFreqencyResponse(frequencies[i]));
+		}
+	}
+		
+	return frequencyResponse;
 }
