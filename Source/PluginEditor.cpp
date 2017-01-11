@@ -39,7 +39,7 @@ NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor (NewProjectAudioP
 		for (int i = 0; i < paramc->choices.size(); i++) {
 			filterTypeCB->addItem(paramc->choices[i], i+1);
 		}
-		filterTypeCB->setSelectedId(0);
+		filterTypeCB->setSelectedId(1);
 		filterTypeCB->addListener(this);
 		addAndMakeVisible(filterTypeCB);
 	}
