@@ -121,6 +121,9 @@ void NewProjectAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
 
 	HighPassFilter[0].setSampleRate(float(sampleRate));
 	HighPassFilter[1].setSampleRate(float(sampleRate));
+	
+	NotchFilter[0].setSampleRate(float(sampleRate));
+	NotchFilter[1].setSampleRate(float(sampleRate));
 }
 
 void NewProjectAudioProcessor::releaseResources()

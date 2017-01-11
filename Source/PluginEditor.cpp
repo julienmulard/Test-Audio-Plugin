@@ -45,7 +45,7 @@ NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor (NewProjectAudioP
 	}
 	//frequencyResponseDisplay.setName("FrequencyResponseDisplay");
 
-	addAndMakeVisible(&frequencyResponseDisplay);
+	addAndMakeVisible(&spectrumDisplay);
 
 //	filterResponse = new Path();
 	//filterResponse->startNewSubPath(0, 200);
@@ -54,7 +54,7 @@ NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor (NewProjectAudioP
 	//filterResponse->closeSubPath();
 
 
-	setSize(400, 300);
+	setSize(500, 400);
 
 
 	//paramSliders.add(&cutoffSlider);
@@ -85,9 +85,9 @@ void NewProjectAudioProcessorEditor::paint (Graphics& g)
 {
     g.fillAll (Colours::white);
 
-    g.setColour (Colours::black);
-    g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), Justification::centred, 1);
+    //g.setColour (Colours::black);
+    //g.setFont (15.0f);
+    //g.drawFittedText ("Hello World!", getLocalBounds(), Justification::centred, 1);
 	
 
 	//Array<float> frequencyResponse = processor.getFrequencyResponse();
@@ -120,12 +120,12 @@ void NewProjectAudioProcessorEditor::resized()
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
 
-	paramSliders[processor.kCutoff]->setBounds(50, 30, 100, 50);
-	paramSliders[processor.kReso]->setBounds(250, 30, 100, 50);
+	paramSliders[processor.kCutoff]->setBounds(50, 5, 100, 45);
+	paramSliders[processor.kReso]->setBounds(170, 5, 100, 45);
 
-	filterTypeCB->setBounds(50, 5, 100, 20);
+	filterTypeCB->setBounds(310, 15, 100, 20);
 
-	frequencyResponseDisplay.setBounds(5, 85, 390, 210 );
+	spectrumDisplay.setBounds(5, 55, 490, 330 );
 
 	/*cutoffSlider.setBounds(50, 150, 100, 100);
 
@@ -140,7 +140,7 @@ void NewProjectAudioProcessorEditor::sliderValueChanged(Slider* slider)
 	if (AudioParameterFloat* param= getParameterForSlider(slider))
 	{
 		*param = (float)slider->getValue();
-		frequencyResponseDisplay.setFilterResponsePath(processor.frequencies, processor.getFrequencyResponse());
+		spectrumDisplay.setFilterResponsePath(processor.frequencies, processor.getFrequencyResponse());
 	}
 }
    
@@ -152,7 +152,7 @@ void NewProjectAudioProcessorEditor::comboBoxChanged(ComboBox* comboBox)
 	{
 		AudioParameterChoice* param = dynamic_cast<AudioParameterChoice*> (params[processor.kFilterType]);
 		*param = comboBox->getSelectedId()-1;
-		frequencyResponseDisplay.setFilterResponsePath(processor.frequencies, processor.getFrequencyResponse());
+		spectrumDisplay.setFilterResponsePath(processor.frequencies, processor.getFrequencyResponse());
 	}
 }
 

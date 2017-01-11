@@ -14,7 +14,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 
-#include "FrequencyResponseDisplay.h"
+#include "SpectrumDisplay.h"
 
 
 //==============================================================================
@@ -45,7 +45,7 @@ private:
 
 	ComboBox* filterTypeCB;
 
-	FrequencyResponseDisplay frequencyResponseDisplay;
+	SpectrumDisplay spectrumDisplay;
 
 	void sliderValueChanged(Slider* slider) override;
 

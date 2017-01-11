@@ -10,8 +10,8 @@ FrequencyResponseDisplay::~FrequencyResponseDisplay()
 
 void FrequencyResponseDisplay::paint(Graphics &g)
 {	
-	g.setColour(Colours::black);
-	g.fillRoundedRectangle(0.0f,0.0f,float(getWidth()), float(getHeight()), 5);
+	//g.setColour(Colours::black);
+	//g.fillRoundedRectangle(0.0f,0.0f,float(getWidth()), float(getHeight()), 5);
 	
 	g.setColour(Colours::green);
 	if (!filterResponse.isEmpty()) {
@@ -30,13 +30,13 @@ void FrequencyResponseDisplay::setFilterResponsePath(Array<float> frequencies, A
 		int h = getHeight();
 
 		//offsets en pixel qui détermine la zone dans laquelle on trace la courbe
-		float offset_x_l = 5;
-		float offset_x_r = 5;
-		float offset_y_u = 5;
-		float offset_y_d = 5;
+		float offset_x_l = 0;
+		float offset_x_r = 0;
+		float offset_y_u = 0;
+		float offset_y_d = 0;
 
 		float freq_offset = log10f(frequencies[0]); //offset des valeurs de fréquences (on est en log, on ne peux pas partir de 0)
-		float freq_gain = w / (log10f(frequencies[frequencies.size() - 1]) - freq_offset);
+		float freq_gain = (w-offset_x_r) / (log10f(frequencies[frequencies.size() - 1]) - freq_offset);
 
 		float max_amp = 20;//amplitude max en dB à montrer
 		float min_amp = -40;//amplitude min en dB à montrer
