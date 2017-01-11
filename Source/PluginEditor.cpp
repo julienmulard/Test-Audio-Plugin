@@ -43,8 +43,11 @@ NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor (NewProjectAudioP
 		filterTypeCB->addListener(this);
 		addAndMakeVisible(filterTypeCB);
 	}
+	//frequencyResponseDisplay.setName("FrequencyResponseDisplay");
 
-	filterResponse = new Path();
+	addAndMakeVisible(&frequencyResponseDisplay);
+
+//	filterResponse = new Path();
 	//filterResponse->startNewSubPath(0, 200);
 	//filterResponse->lineTo(150, 200);
 	//filterResponse->lineTo(250, 300);
@@ -87,29 +90,29 @@ void NewProjectAudioProcessorEditor::paint (Graphics& g)
     g.drawFittedText ("Hello World!", getLocalBounds(), Justification::centred, 1);
 	
 
-	Array<float> frequencyResponse = processor.getFrequencyResponse();
+	//Array<float> frequencyResponse = processor.getFrequencyResponse();
 
-	//sur x, on mappe 20 à 0 et 20000 à 400 logarithmiquement (trop de h)
-	//sur y, on mappe 0 à 200, +15 à 160.
+	////sur x, on mappe 20 à 0 et 20000 à 400 logarithmiquement (trop de h)
+	////sur y, on mappe 0 à 200, +15 à 160.
 
-	float offset = log10f(processor.frequencies[0]);
+	//float offset = log10f(processor.frequencies[0]);
 
-	filterResponse->startNewSubPath(0, 250 - frequencyResponse[0]*10);
-	for (int i = 1; i < frequencyResponse.size(); i++) {
-		
-		float freq = processor.frequencies[i];
-		float log_freq = log10f(freq);
-		float x = (log_freq  - offset)*120;
+	//filterResponse->startNewSubPath(0, 250 - frequencyResponse[0]*10);
+	//for (int i = 1; i < frequencyResponse.size(); i++) {
+	//	
+	//	float freq = processor.frequencies[i];
+	//	float log_freq = log10f(freq);
+	//	float x = (log_freq  - offset)*120;
 
-		float response = frequencyResponse[i]*10;
-		float y = 250 - response;
-		filterResponse->lineTo(x, y);
-		
-		//filterResponse->lineTo(log10f(processor.frequencies[i])-offset, 200 - frequencyResponse[i]);
-	}
+	//	float response = frequencyResponse[i]*10;
+	//	float y = 250 - response;
+	//	filterResponse->lineTo(x, y);
+	//	
+	//	//filterResponse->lineTo(log10f(processor.frequencies[i])-offset, 200 - frequencyResponse[i]);
+	//}
 
-	g.strokePath(*filterResponse, PathStrokeType(2.0f));
-	filterResponse->clear();
+	//g.strokePath(*filterResponse, PathStrokeType(2.0f));
+	//filterResponse->clear();
 }
 
 void NewProjectAudioProcessorEditor::resized()
@@ -117,10 +120,12 @@ void NewProjectAudioProcessorEditor::resized()
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
 
-	paramSliders[processor.kCutoff]->setBounds(50, 50, 100, 100);
-	paramSliders[processor.kReso]->setBounds(250, 50, 100, 100);
+	paramSliders[processor.kCutoff]->setBounds(50, 30, 100, 50);
+	paramSliders[processor.kReso]->setBounds(250, 30, 100, 50);
 
-	filterTypeCB->setBounds(50, 150, 100, 20);
+	filterTypeCB->setBounds(50, 5, 100, 20);
+
+	frequencyResponseDisplay.setBounds(5, 85, 390, 210 );
 
 	/*cutoffSlider.setBounds(50, 150, 100, 100);
 
@@ -135,7 +140,7 @@ void NewProjectAudioProcessorEditor::sliderValueChanged(Slider* slider)
 	if (AudioParameterFloat* param= getParameterForSlider(slider))
 	{
 		*param = (float)slider->getValue();
-		repaint();
+		frequencyResponseDisplay.setFilterResponsePath(processor.frequencies, processor.getFrequencyResponse());
 	}
 }
    
@@ -147,6 +152,7 @@ void NewProjectAudioProcessorEditor::comboBoxChanged(ComboBox* comboBox)
 	{
 		AudioParameterChoice* param = dynamic_cast<AudioParameterChoice*> (params[processor.kFilterType]);
 		*param = comboBox->getSelectedId()-1;
+		frequencyResponseDisplay.setFilterResponsePath(processor.frequencies, processor.getFrequencyResponse());
 	}
 }
 
@@ -170,3 +176,30 @@ AudioParameterFloat* NewProjectAudioProcessorEditor:: getParameterForSlider(Slid
 	const OwnedArray<AudioProcessorParameter>& params = getAudioProcessor()->getParameters();
 	return dynamic_cast<AudioParameterFloat*> (params[paramSliders.indexOf(slider)]);
 }
+
+
+//Path* NewProjectAudioProcessorEditor::getFilterResponsePath()
+//{
+//	Array<float> frequencyResponse = processor.getFrequencyResponse();
+//
+//	//sur x, on mappe 20 à 0 et 20000 à 400 logarithmiquement (trop de h)
+//	//sur y, on mappe 0 à 200, +15 à 160.
+//
+//	float offset = log10f(processor.frequencies[0]);
+//
+//	filterResponse->startNewSubPath(0, 250 - frequencyResponse[0] * 10);
+//	for (int i = 1; i < frequencyResponse.size(); i++) {
+//
+//		float freq = processor.frequencies[i];
+//		float log_freq = log10f(freq);
+//		float x = (log_freq - offset) * 120;
+//
+//		float response = frequencyResponse[i] * 10;
+//		float y = 250 - response;
+//		filterResponse->lineTo(x, y);
+//
+//		//filterResponse->lineTo(log10f(processor.frequencies[i])-offset, 200 - frequencyResponse[i]);
+//	}
+//
+//	return filterResponse;
+//}

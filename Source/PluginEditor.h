@@ -14,6 +14,8 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 
+#include "FrequencyResponseDisplay.h"
+
 
 //==============================================================================
 /**
@@ -43,17 +45,20 @@ private:
 
 	ComboBox* filterTypeCB;
 
+	FrequencyResponseDisplay frequencyResponseDisplay;
+
 	void sliderValueChanged(Slider* slider) override;
 
 	void comboBoxChanged(ComboBox* comboBox) override;
 
 	OwnedArray<Slider> paramSliders;
 	
-	Path* filterResponse;
+	//Path* filterResponse;
 
 	AudioParameterFloat* getParameterForSlider(Slider* slider);
 
 	void createSliderForParam(const AudioParameterFloat* param, String suffix = "", juce::Slider::SliderStyle sliderStyle = Slider::RotaryHorizontalVerticalDrag);
+	//Path* getFilterResponsePath();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NewProjectAudioProcessorEditor)
 };
