@@ -1,8 +1,6 @@
 #include "MyLowPassFilter.h"
 
 
-#include "MyLowPassFilter.h"
-
 MyLowPassFilter::MyLowPassFilter(float cutoff, float Q, float sampleRate) : MyFilter(cutoff, Q, sampleRate) {
 
 }

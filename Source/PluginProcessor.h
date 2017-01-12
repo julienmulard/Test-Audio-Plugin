@@ -15,7 +15,8 @@
 #include "MyLowPassFilter.h"
 #include "MyHighPassFilter.h"
 #include "MyNotchFilter.h"
-
+#include "MyBandPassFilter1.h"
+#include "MyBandPassFilter2.h"
 
 //==============================================================================
 /**
@@ -71,6 +72,8 @@ private:
 	MyLowPassFilter LowPassFilter[2];
 	MyHighPassFilter HighPassFilter[2];
 	MyNotchFilter NotchFilter[2];
+	MyBandPassFilter1 BandPassFilter1[2];
+	MyBandPassFilter2 BandPassFilter2[2];
 
 	AudioParameterFloat* cutoff;
 	AudioParameterFloat* reso;

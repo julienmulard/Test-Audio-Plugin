@@ -134,6 +134,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\FrequencyResponseDisplay.cpp" />
+    <ClCompile Include="..\..\Source\MyBandPassFilter1.cpp" />
+    <ClCompile Include="..\..\Source\MyBandPassFilter2.cpp" />
     <ClCompile Include="..\..\Source\MyFilter.cpp" />
     <ClCompile Include="..\..\Source\MyHighPassFilter.cpp" />
     <ClCompile Include="..\..\Source\MyLowPassFilter.cpp" />
@@ -1797,6 +1799,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\FrequencyResponseDisplay.h" />
+    <ClInclude Include="..\..\Source\MyBandPassFilter1.h" />
+    <ClInclude Include="..\..\Source\MyBandPassFilter2.h" />
     <ClInclude Include="..\..\Source\MyFilter.h" />
     <ClInclude Include="..\..\Source\MyHighPassFilter.h" />
     <ClInclude Include="..\..\Source\MyLowPassFilter.h" />

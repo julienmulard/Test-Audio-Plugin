@@ -29,7 +29,7 @@ NewProjectAudioProcessor::NewProjectAudioProcessor()
 	addParameter(cutoff = new AudioParameterFloat("cutoff", "Cutoff", NormalisableRange<float>(20.0f, 22000.0f, 0.0f, 0.2f), 1000.0f));
 	addParameter(reso = new AudioParameterFloat("reso", "Resonnance", NormalisableRange<float>(0.5f, 3.0f, 0.0f), 0.5f));
 	
-	StringArray filterTypeList = { "Low Pass Filter", "High Pass Filter", "Notch Filter" };
+	StringArray filterTypeList = { "Low Pass Filter", "High Pass Filter", "Notch Filter", "Band Pass Filter (gain = Q)", "Band Pass Filter (fixed gain)" };
 
 	addParameter(filterType = new AudioParameterChoice("filterType", "FilterType", filterTypeList ,0));
 
@@ -41,6 +41,12 @@ NewProjectAudioProcessor::NewProjectAudioProcessor()
 
 	NotchFilter[0] = MyNotchFilter(*cutoff, *reso, 44100);
 	NotchFilter[1] = MyNotchFilter(*cutoff, *reso, 44100);
+
+	BandPassFilter1[0] = MyBandPassFilter1(*cutoff, *reso, 44100);
+	BandPassFilter1[1] = MyBandPassFilter1(*cutoff, *reso, 44100);
+
+	BandPassFilter2[0] = MyBandPassFilter2(*cutoff, *reso, 44100);
+	BandPassFilter2[1] = MyBandPassFilter2(*cutoff, *reso, 44100);
 	
 	frequencyResponse = { 0 };
 	
@@ -206,6 +212,16 @@ void NewProjectAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuff
 				channelData[inputSample] = NotchFilter[channel].filter(channelData[inputSample]);
 
 			}
+			else if (filterType->getIndex() == 3) {
+				BandPassFilter1[channel].setFilter(*cutoff, *reso);
+				channelData[inputSample] = BandPassFilter1[channel].filter(channelData[inputSample]);
+
+			}
+			else if (filterType->getIndex() == 4) {
+				BandPassFilter2[channel].setFilter(*cutoff, *reso);
+				channelData[inputSample] = BandPassFilter2[channel].filter(channelData[inputSample]);
+
+			}
 		}
 	}
 
@@ -266,6 +282,20 @@ Array<float> NewProjectAudioProcessor::getFrequencyResponse()
 		for (int i = 0; i<frequencies.size(); i++)
 		{
 			frequencyResponse.add(NotchFilter[0].getFreqencyResponse(frequencies[i]));
+		}
+	}
+	else if (filterType->getIndex() == 3)
+	{
+		for (int i = 0; i<frequencies.size(); i++)
+		{
+			frequencyResponse.add(BandPassFilter1[0].getFreqencyResponse(frequencies[i]));
+		}
+	}
+	else if (filterType->getIndex() == 4)
+	{
+		for (int i = 0; i<frequencies.size(); i++)
+		{
+			frequencyResponse.add(BandPassFilter2[0].getFreqencyResponse(frequencies[i]));
 		}
 	}
 		

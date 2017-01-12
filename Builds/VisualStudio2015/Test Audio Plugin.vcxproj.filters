@@ -376,6 +376,15 @@
     <Filter Include="Juce Library Code">
       <UniqueIdentifier>{8B4D1BAA-6DB4-CAEC-A0FA-271F354D5C61}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Test Audio Plugin\Source\Filtres">
+      <UniqueIdentifier>{e3d4ee47-b31f-492b-8fff-77102b9d242d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test Audio Plugin\Source\Filtres\Filtres Biquadratiques">
+      <UniqueIdentifier>{fdb6cebd-1719-4631-9828-286fc03e87fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test Audio Plugin\Source\Composant UI">
+      <UniqueIdentifier>{b7c38a9b-ae74-444a-afca-c215461173de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\PluginProcessor.cpp">
@@ -2064,23 +2073,29 @@
     <ClCompile Include="..\..\JuceLibraryCode\juce_video.cpp">
       <Filter>Juce Library Code</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\MyLowPassFilter.cpp">
-      <Filter>Test Audio Plugin\Source</Filter>
+    <ClCompile Include="..\..\Source\MyFilter.cpp">
+      <Filter>Test Audio Plugin\Source\Filtres\Filtres Biquadratiques</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\MyHighPassFilter.cpp">
-      <Filter>Test Audio Plugin\Source</Filter>
+      <Filter>Test Audio Plugin\Source\Filtres\Filtres Biquadratiques</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\MyFilter.cpp">
-      <Filter>Test Audio Plugin\Source</Filter>
+    <ClCompile Include="..\..\Source\MyLowPassFilter.cpp">
+      <Filter>Test Audio Plugin\Source\Filtres\Filtres Biquadratiques</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\MyNotchFilter.cpp">
-      <Filter>Test Audio Plugin\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\FrequencyResponseDisplay.cpp">
-      <Filter>Test Audio Plugin\Source</Filter>
+      <Filter>Test Audio Plugin\Source\Filtres\Filtres Biquadratiques</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\SpectrumDisplay.cpp">
-      <Filter>Test Audio Plugin\Source</Filter>
+      <Filter>Test Audio Plugin\Source\Composant UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FrequencyResponseDisplay.cpp">
+      <Filter>Test Audio Plugin\Source\Composant UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\MyBandPassFilter1.cpp">
+      <Filter>Test Audio Plugin\Source\Filtres\Filtres Biquadratiques</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\MyBandPassFilter2.cpp">
+      <Filter>Test Audio Plugin\Source\Filtres\Filtres Biquadratiques</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -4039,9 +4054,6 @@
     <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_gui_extra\juce_gui_extra.h" />
     <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_opengl\juce_opengl.h" />
     <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_video\juce_video.h" />
-    <ClInclude Include="..\..\Source\MyLowPassFilter.h">
-      <Filter>Test Audio Plugin\Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_basics\juce_audio_basics.h" />
     <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_devices\juce_audio_devices.h" />
     <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_formats\juce_audio_formats.h" />
@@ -4056,9 +4068,34 @@
     <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_gui_extra\juce_gui_extra.h" />
     <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_opengl\juce_opengl.h" />
     <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_video\juce_video.h" />
-    <ClInclude Include="..\..\Source\MyHighPassFilter.h">
-      <Filter>Test Audio Plugin\Source</Filter>
-    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_basics\juce_audio_basics.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_devices\juce_audio_devices.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_formats\juce_audio_formats.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_processors\juce_audio_processors.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_core\juce_core.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_cryptography\juce_cryptography.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_data_structures\juce_data_structures.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_events\juce_events.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_graphics\juce_graphics.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_gui_basics\juce_gui_basics.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_gui_extra\juce_gui_extra.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_opengl\juce_opengl.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_video\juce_video.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_basics\juce_audio_basics.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_devices\juce_audio_devices.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_formats\juce_audio_formats.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_processors\juce_audio_processors.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_core\juce_core.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_cryptography\juce_cryptography.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_data_structures\juce_data_structures.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_events\juce_events.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_graphics\juce_graphics.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_gui_basics\juce_gui_basics.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_gui_extra\juce_gui_extra.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_opengl\juce_opengl.h" />
+    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_video\juce_video.h" />
     <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_basics\juce_audio_basics.h" />
     <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_devices\juce_audio_devices.h" />
     <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_formats\juce_audio_formats.h" />
@@ -4074,30 +4111,28 @@
     <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_opengl\juce_opengl.h" />
     <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_video\juce_video.h" />
     <ClInclude Include="..\..\Source\MyFilter.h">
-      <Filter>Test Audio Plugin\Source</Filter>
+      <Filter>Test Audio Plugin\Source\Filtres\Filtres Biquadratiques</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\MyHighPassFilter.h">
+      <Filter>Test Audio Plugin\Source\Filtres\Filtres Biquadratiques</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\MyLowPassFilter.h">
+      <Filter>Test Audio Plugin\Source\Filtres\Filtres Biquadratiques</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\MyNotchFilter.h">
-      <Filter>Test Audio Plugin\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_basics\juce_audio_basics.h" />
-    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_devices\juce_audio_devices.h" />
-    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_formats\juce_audio_formats.h" />
-    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_plugin_client\juce_audio_plugin_client.h" />
-    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_processors\juce_audio_processors.h" />
-    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_core\juce_core.h" />
-    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_cryptography\juce_cryptography.h" />
-    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_data_structures\juce_data_structures.h" />
-    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_events\juce_events.h" />
-    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_graphics\juce_graphics.h" />
-    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_gui_basics\juce_gui_basics.h" />
-    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_gui_extra\juce_gui_extra.h" />
-    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_opengl\juce_opengl.h" />
-    <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_video\juce_video.h" />
-    <ClInclude Include="..\..\Source\FrequencyResponseDisplay.h">
-      <Filter>Test Audio Plugin\Source</Filter>
+      <Filter>Test Audio Plugin\Source\Filtres\Filtres Biquadratiques</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\SpectrumDisplay.h">
-      <Filter>Test Audio Plugin\Source</Filter>
+      <Filter>Test Audio Plugin\Source\Composant UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\FrequencyResponseDisplay.h">
+      <Filter>Test Audio Plugin\Source\Composant UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\MyBandPassFilter1.h">
+      <Filter>Test Audio Plugin\Source\Filtres\Filtres Biquadratiques</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\MyBandPassFilter2.h">
+      <Filter>Test Audio Plugin\Source\Filtres\Filtres Biquadratiques</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
