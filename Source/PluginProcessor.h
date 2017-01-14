@@ -76,7 +76,7 @@ private:
 	//MyBandPassFilter1 BandPassFilter1[2];
 	//MyBandPassFilter2 BandPassFilter2[2];
 
-	MyFilter ** Filters;
+	MyFilter *** Filters;
 
 	AudioParameterFloat* cutoff;
 	AudioParameterFloat* reso;
