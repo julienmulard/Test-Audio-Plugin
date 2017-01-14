@@ -64,7 +64,8 @@ void SpectrumDisplay::resized()
 	frequencyResponseDisplay.setBounds(0, 0, getWidth(), getHeight());
 }
 
-void SpectrumDisplay::setFilterResponsePath(Array<float> frequencies, Array<float> amplitudes)
+void SpectrumDisplay::setFilterResponsePath(Array<float> frequencies, Array<float> amplitudes, float cutoff)
 {
-	frequencyResponseDisplay.setFilterResponsePath(frequencies, amplitudes);
+	frequencyResponseDisplay.setFilterResponsePath(frequencies, amplitudes,cutoff);
+	
 }

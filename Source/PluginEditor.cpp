@@ -144,8 +144,11 @@ void NewProjectAudioProcessorEditor::sliderValueChanged(Slider* slider)
 	//const OwnedArray<AudioProcessorParameter>& params = processor.getParameters();
 	if (AudioParameterFloat* param= getParameterForSlider(slider))
 	{
+		const OwnedArray<AudioProcessorParameter>& params = getAudioProcessor()->getParameters();
+		const AudioParameterFloat* cutoff = dynamic_cast<AudioParameterFloat*> (params[processor.kCutoff]);
+
 		*param = (float)slider->getValue();
-		spectrumDisplay.setFilterResponsePath(processor.frequencies, processor.getFrequencyResponse());
+		spectrumDisplay.setFilterResponsePath(processor.frequencies, processor.getFrequencyResponse(),*cutoff);
 	}
 }
    
@@ -155,9 +158,12 @@ void NewProjectAudioProcessorEditor::comboBoxChanged(ComboBox* comboBox)
 	const OwnedArray<AudioProcessorParameter>& params = processor.getParameters();
 	if (comboBox == filterTypeCB) 
 	{
+		const OwnedArray<AudioProcessorParameter>& params = getAudioProcessor()->getParameters();
+		const AudioParameterFloat* cutoff = dynamic_cast<AudioParameterFloat*> (params[processor.kCutoff]);
+
 		AudioParameterChoice* param = dynamic_cast<AudioParameterChoice*> (params[processor.kFilterType]);
 		*param = comboBox->getSelectedId()-1;
-		spectrumDisplay.setFilterResponsePath(processor.frequencies, processor.getFrequencyResponse());
+		spectrumDisplay.setFilterResponsePath(processor.frequencies, processor.getFrequencyResponse(), *cutoff);
 	}
 }
 

@@ -8,10 +8,11 @@ public:
 	FrequencyResponseDisplay();
 	~FrequencyResponseDisplay();
 
-	void setFilterResponsePath(Array<float> frequencies, Array<float> amplitudes);
+	void setFilterResponsePath(Array<float> frequencies, Array<float> amplitudes, float cutoff);
 
 private:
 	Path filterResponse;
+	float mXCutoff;
 
 	void paint(Graphics &g) override;
 	

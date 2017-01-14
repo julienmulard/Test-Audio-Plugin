@@ -18,12 +18,15 @@ void FrequencyResponseDisplay::paint(Graphics &g)
 		g.strokePath(filterResponse, PathStrokeType(2.0f));
 		filterResponse.clear();
 	}
+	g.setColour(Colours::red);
+	g.drawLine(mXCutoff, 0, mXCutoff, getHeight());
 		
 	
 }
 
-void FrequencyResponseDisplay::setFilterResponsePath(Array<float> frequencies, Array<float> amplitudes)
+void FrequencyResponseDisplay::setFilterResponsePath(Array<float> frequencies, Array<float> amplitudes, float cutoff)
 {
+	
 	if (frequencies.size() == amplitudes.size())
 	{
 		int w = getWidth();
@@ -57,6 +60,8 @@ void FrequencyResponseDisplay::setFilterResponsePath(Array<float> frequencies, A
 			float y = amp_offset - response;
 			filterResponse.lineTo(x, y);
 		}
+
+		 mXCutoff = (log10(cutoff) - freq_offset) * freq_gain;
 
 		//filterResponse = filterResponsePath;
 		repaint();
