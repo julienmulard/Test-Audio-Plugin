@@ -61,7 +61,7 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
 
-	enum paramIndex {kCutoff = 0, kReso, kFilterType};
+	enum paramIndex {kCutoff = 0, kReso, kFilterOrder, kFilterType};
 	enum filterTypeIndex { kLowPass = 0, kHighPass, kNotch, kBandPass1, kBandPass2, kNumFilterTypes };
 
 	Array<float> frequencyResponse;
@@ -76,10 +76,14 @@ private:
 	//MyBandPassFilter1 BandPassFilter1[2];
 	//MyBandPassFilter2 BandPassFilter2[2];
 
-	MyFilter *** Filters;
+	const int maxFilterOrder = 4;
+
+	MyFilter **** Filters;
 
 	AudioParameterFloat* cutoff;
 	AudioParameterFloat* reso;
+
+	AudioParameterFloat* filterOrder;
 
 	AudioParameterChoice* filterType;
     //==============================================================================

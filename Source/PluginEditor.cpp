@@ -34,6 +34,10 @@ NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor (NewProjectAudioP
 		createSliderForParam(paramf);
 	}
 
+	if (const AudioParameterFloat* paramf = dynamic_cast<AudioParameterFloat*> (params[p.kFilterOrder])) {
+		createSliderForParam(paramf);
+	}
+
 	if (const AudioParameterChoice* paramc = dynamic_cast<AudioParameterChoice*> (params[p.kFilterType])) {
 		filterTypeCB = new ComboBox(paramc->name);
 		for (int i = 0; i < paramc->choices.size(); i++) {
@@ -120,10 +124,11 @@ void NewProjectAudioProcessorEditor::resized()
     // This is generally where you'll want to lay out the positions of any
     // subcomponents in your editor..
 
-	paramSliders[processor.kCutoff]->setBounds(50, 5, 100, 45);
-	paramSliders[processor.kReso]->setBounds(170, 5, 100, 45);
+	paramSliders[processor.kCutoff]->setBounds(5, 5, 100, 50);
+	paramSliders[processor.kReso]->setBounds(105, 5, 100, 50);
+	paramSliders[processor.kFilterOrder]->setBounds(210, 5, 100, 50);
 
-	filterTypeCB->setBounds(310, 15, 100, 20);
+	filterTypeCB->setBounds(315, 15, 100, 20);
 
 	spectrumDisplay.setBounds(5, 55, 490, 330 );
 
@@ -158,9 +163,9 @@ void NewProjectAudioProcessorEditor::comboBoxChanged(ComboBox* comboBox)
 
 void NewProjectAudioProcessorEditor::createSliderForParam(const AudioParameterFloat* param, String suffix, juce::Slider::SliderStyle sliderStyle)
 {
-	Slider* slider = new Slider(param->name);
+	Slider* slider = new Slider(sliderStyle, Slider::TextBoxBelow);
 	paramSliders.add(slider);
-	slider->setRange(param->range.start, param->range.end);
+	slider->setRange(param->range.start, param->range.end, param->range.interval);
 	slider->setSliderStyle(sliderStyle);
 	slider->setSkewFactor(param->range.skew);
 	slider->setTextValueSuffix(suffix);
@@ -168,6 +173,8 @@ void NewProjectAudioProcessorEditor::createSliderForParam(const AudioParameterFl
 	slider->setValue(*param);
 	addAndMakeVisible(slider);
 }
+
+
 
 
 

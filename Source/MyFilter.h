@@ -18,7 +18,7 @@ public:
 
 	float filter(float input);
 
-	float getFreqencyResponse(float f);
+	float getFreqencyResponse(float f, int order = 1);
 
 protected:
 	//The filter parameters

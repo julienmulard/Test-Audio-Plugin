@@ -57,7 +57,10 @@ private:
 
 	AudioParameterFloat* getParameterForSlider(Slider* slider);
 
-	void createSliderForParam(const AudioParameterFloat* param, String suffix = "", juce::Slider::SliderStyle sliderStyle = Slider::RotaryHorizontalVerticalDrag);
+	void createSliderForParam(const AudioParameterFloat* param, String suffix = "", juce::Slider::SliderStyle sliderStyle = Slider::RotaryVerticalDrag);
+	//void createSliderForParam(const AudioParameterInt* param, String suffix = "", juce::Slider::SliderStyle sliderStyle = Slider::RotaryVerticalDrag);
+
+	
 	//Path* getFilterResponsePath();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (NewProjectAudioProcessorEditor)

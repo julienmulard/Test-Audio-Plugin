@@ -29,8 +29,9 @@ NewProjectAudioProcessor::NewProjectAudioProcessor()
 	addParameter(cutoff = new AudioParameterFloat("cutoff", "Cutoff", NormalisableRange<float>(20.0f, 22000.0f, 0.0f, 0.2f), 1000.0f));
 	addParameter(reso = new AudioParameterFloat("reso", "Resonnance", NormalisableRange<float>(0.5f, 3.0f, 0.0f), 0.5f));
 	
-	StringArray filterTypeList = { "Low Pass Filter", "High Pass Filter", "Notch Filter", "Band Pass Filter (gain = Q)", "Band Pass Filter (fixed gain)" };
+	addParameter(filterOrder = new AudioParameterFloat("filterOrder", "Filter Order", NormalisableRange<float>(1.0f, 4.0f, 1.0f), 1.0f));
 
+	StringArray filterTypeList = { "Low Pass Filter", "High Pass Filter", "Notch Filter", "Band Pass Filter (gain = Q)", "Band Pass Filter (fixed gain)" };
 	addParameter(filterType = new AudioParameterChoice("filterType", "FilterType", filterTypeList ,0));
 
 	//LowPassFilter[0] = MyLowPassFilter(*cutoff, *reso, 44100);
@@ -48,23 +49,56 @@ NewProjectAudioProcessor::NewProjectAudioProcessor()
 	//BandPassFilter2[0] = MyBandPassFilter2(*cutoff, *reso, 44100);
 	//BandPassFilter2[1] = MyBandPassFilter2(*cutoff, *reso, 44100);
 
-	Filters = new MyFilter**[kNumFilterTypes];
+	Filters = new MyFilter***[kNumFilterTypes];
 	
-	for (int i = 0; i < kNumFilterTypes; i++) {
-		Filters[i] = new MyFilter*[2];
+	for (int type = 0; type < kNumFilterTypes; type++) {
+		Filters[type] = new MyFilter**[maxFilterOrder];
+
+		for (int order = 0; order < maxFilterOrder; order++)
+		{
+			Filters[type][order] = new MyFilter*[2];
+			switch(type)
+			{
+				case kLowPass:
+					Filters[type][order][0] = new MyLowPassFilter(*cutoff, *reso, 44100);
+					Filters[type][order][1] = new MyLowPassFilter(*cutoff, *reso, 44100);
+					break;
+
+				case kHighPass:
+					Filters[type][order][0] = new MyHighPassFilter(*cutoff, *reso, 44100);
+					Filters[type][order][1] = new MyHighPassFilter(*cutoff, *reso, 44100);
+					break;
+
+				case kNotch:
+					Filters[type][order][0] = new MyNotchFilter(*cutoff, *reso, 44100);
+					Filters[type][order][1] = new MyNotchFilter(*cutoff, *reso, 44100);
+					break;
+
+				case kBandPass1:
+					Filters[type][order][0] = new MyBandPassFilter1(*cutoff, *reso, 44100);
+					Filters[type][order][1] = new MyBandPassFilter1(*cutoff, *reso, 44100);
+					break;
+
+				case kBandPass2:
+					Filters[type][order][0] = new MyBandPassFilter2(*cutoff, *reso, 44100);
+					Filters[type][order][1] = new MyBandPassFilter2(*cutoff, *reso, 44100);
+					break;
+			}
+		}
+
 	}
 
 
-	Filters[kLowPass][0] = new MyLowPassFilter(*cutoff, *reso, 44100);
-	Filters[kLowPass][1] =new MyLowPassFilter(*cutoff, *reso, 44100);
-	Filters[kHighPass][0] = new MyHighPassFilter(*cutoff, *reso, 44100);
-	Filters[kHighPass][1] =new MyHighPassFilter(*cutoff, *reso, 44100);
-	Filters[kNotch][0] =new MyNotchFilter(*cutoff, *reso, 44100);
-	Filters[kNotch][1] =new MyNotchFilter(*cutoff, *reso, 44100);
-	Filters[kBandPass1][0] = new MyBandPassFilter1(*cutoff, *reso, 44100);
-	Filters[kBandPass1][1] =new MyBandPassFilter1(*cutoff, *reso, 44100);
-	Filters[kBandPass2][0] =new MyBandPassFilter2(*cutoff, *reso, 44100);
-	Filters[kBandPass2][1] =new MyBandPassFilter2(*cutoff, *reso, 44100);
+	//Filters[kLowPass][0] = new MyLowPassFilter(*cutoff, *reso, 44100);
+	//Filters[kLowPass][1] =new MyLowPassFilter(*cutoff, *reso, 44100);
+	//Filters[kHighPass][0] = new MyHighPassFilter(*cutoff, *reso, 44100);
+	//Filters[kHighPass][1] =new MyHighPassFilter(*cutoff, *reso, 44100);
+	//Filters[kNotch][0] =new MyNotchFilter(*cutoff, *reso, 44100);
+	//Filters[kNotch][1] =new MyNotchFilter(*cutoff, *reso, 44100);
+	//Filters[kBandPass1][0] = new MyBandPassFilter1(*cutoff, *reso, 44100);
+	//Filters[kBandPass1][1] =new MyBandPassFilter1(*cutoff, *reso, 44100);
+	//Filters[kBandPass2][0] =new MyBandPassFilter2(*cutoff, *reso, 44100);
+	//Filters[kBandPass2][1] =new MyBandPassFilter2(*cutoff, *reso, 44100);
 
 	frequencyResponse = { 0 };
 	
@@ -80,13 +114,17 @@ NewProjectAudioProcessor::NewProjectAudioProcessor()
 
 NewProjectAudioProcessor::~NewProjectAudioProcessor()
 {
-	for (int i = 0; i < kNumFilterTypes; i++) 
+	for (int type = 0; type < kNumFilterTypes; type++) 
 	{
-		for (int j = 0; j < 2; j++)
+		for (int order = 0; order < maxFilterOrder; order++)
 		{
-			delete Filters[i][j];
+			for (int channel = 0; channel < 2; channel++)
+			{
+				delete Filters[type][order][channel];
+			}
+			delete[] Filters[type][order];
 		}
-		delete[] Filters[i];
+		delete[] Filters[type];
 	}
 	delete[] Filters;
 }
@@ -160,9 +198,12 @@ void NewProjectAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
 
 	for (int type = 0; type < kNumFilterTypes; type++)
 	{
-		for (int channel = 0; channel < 2; channel++)
+		for (int order = 0; order < maxFilterOrder; order++)
 		{
-			Filters[type][channel]->setSampleRate(sampleRate);
+			for (int channel = 0; channel < 2; channel++)
+			{
+				Filters[type][order][channel]->setSampleRate(sampleRate);
+			}
 		}
 	}
 }
@@ -231,9 +272,11 @@ void NewProjectAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuff
 
 			float* channelData = buffer.getWritePointer(channel);
 
-			Filters[filterType->getIndex()][channel]->setFilter(*cutoff, *reso);
-			channelData[inputSample] = Filters[filterType->getIndex()][channel]->filter(channelData[inputSample]);
-
+			for (int order = 0; order < int(*filterOrder); order++)
+			{
+				Filters[filterType->getIndex()][order][channel]->setFilter(*cutoff, *reso);
+				channelData[inputSample] = Filters[filterType->getIndex()][order][channel]->filter(channelData[inputSample]);
+			}
 			//if (filterType->getIndex() == kLowPass) {
 			//	LowPassFilter[channel].setFilter(*cutoff, *reso);
 			//	channelData[inputSample] = LowPassFilter[channel].filter(channelData[inputSample]);
@@ -301,7 +344,7 @@ Array<float> NewProjectAudioProcessor::getFrequencyResponse()
 
 	for (int i = 0; i < frequencies.size(); i++)
 	{
-		frequencyResponse.add(Filters[filterType->getIndex()][0]->getFreqencyResponse(frequencies[i]));
+		frequencyResponse.add(Filters[filterType->getIndex()][0][0]->getFreqencyResponse(frequencies[i],int(*filterOrder)));
 	}
 
 
