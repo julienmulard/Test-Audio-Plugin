@@ -33,21 +33,37 @@ NewProjectAudioProcessor::NewProjectAudioProcessor()
 
 	addParameter(filterType = new AudioParameterChoice("filterType", "FilterType", filterTypeList ,0));
 
-	LowPassFilter[0] = MyLowPassFilter(*cutoff, *reso, 44100);
-	LowPassFilter[1] = MyLowPassFilter(*cutoff, *reso, 44100);
+	//LowPassFilter[0] = MyLowPassFilter(*cutoff, *reso, 44100);
+	//LowPassFilter[1] = MyLowPassFilter(*cutoff, *reso, 44100);
 
-	HighPassFilter[0] = MyHighPassFilter(*cutoff, *reso, 44100);
-	HighPassFilter[1] = MyHighPassFilter(*cutoff, *reso, 44100);
+	//HighPassFilter[0] = MyHighPassFilter(*cutoff, *reso, 44100);
+	//HighPassFilter[1] = MyHighPassFilter(*cutoff, *reso, 44100);
 
-	NotchFilter[0] = MyNotchFilter(*cutoff, *reso, 44100);
-	NotchFilter[1] = MyNotchFilter(*cutoff, *reso, 44100);
+	//NotchFilter[0] = MyNotchFilter(*cutoff, *reso, 44100);
+	//NotchFilter[1] = MyNotchFilter(*cutoff, *reso, 44100);
 
-	BandPassFilter1[0] = MyBandPassFilter1(*cutoff, *reso, 44100);
-	BandPassFilter1[1] = MyBandPassFilter1(*cutoff, *reso, 44100);
+	//BandPassFilter1[0] = MyBandPassFilter1(*cutoff, *reso, 44100);
+	//BandPassFilter1[1] = MyBandPassFilter1(*cutoff, *reso, 44100);
 
-	BandPassFilter2[0] = MyBandPassFilter2(*cutoff, *reso, 44100);
-	BandPassFilter2[1] = MyBandPassFilter2(*cutoff, *reso, 44100);
+	//BandPassFilter2[0] = MyBandPassFilter2(*cutoff, *reso, 44100);
+	//BandPassFilter2[1] = MyBandPassFilter2(*cutoff, *reso, 44100);
+
+	Filters = new MyFilter*[kNumFilterTypes*2];
 	
+
+
+
+	Filters[kLowPass*2] = new MyLowPassFilter(*cutoff, *reso, 44100);
+	Filters[kLowPass*2+1] =new MyLowPassFilter(*cutoff, *reso, 44100);
+	Filters[kHighPass*2] = new MyHighPassFilter(*cutoff, *reso, 44100);
+	Filters[kHighPass*2+1] =new MyHighPassFilter(*cutoff, *reso, 44100);
+	Filters[kNotch*2] =new MyNotchFilter(*cutoff, *reso, 44100);
+	Filters[kNotch*2+1] =new MyNotchFilter(*cutoff, *reso, 44100);
+	Filters[kBandPass1*2] = new MyBandPassFilter1(*cutoff, *reso, 44100);
+	Filters[kBandPass1*2+1] =new MyBandPassFilter1(*cutoff, *reso, 44100);
+	Filters[kBandPass2*2] =new MyBandPassFilter2(*cutoff, *reso, 44100);
+	Filters[kBandPass2*2+1] =new MyBandPassFilter2(*cutoff, *reso, 44100);
+
 	frequencyResponse = { 0 };
 	
 	float log_start = log(20);
@@ -62,6 +78,11 @@ NewProjectAudioProcessor::NewProjectAudioProcessor()
 
 NewProjectAudioProcessor::~NewProjectAudioProcessor()
 {
+	for (int i = 0; i < kNumFilterTypes * 2; i++) 
+	{
+		delete Filters[i];
+	}
+	delete[] Filters;
 }
 
 //==============================================================================
@@ -122,14 +143,22 @@ void NewProjectAudioProcessor::prepareToPlay (double sampleRate, int samplesPerB
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
-	LowPassFilter[0].setSampleRate(float(sampleRate));
+	/*LowPassFilter[0].setSampleRate(float(sampleRate));
 	LowPassFilter[1].setSampleRate(float(sampleRate));
 
 	HighPassFilter[0].setSampleRate(float(sampleRate));
 	HighPassFilter[1].setSampleRate(float(sampleRate));
 	
 	NotchFilter[0].setSampleRate(float(sampleRate));
-	NotchFilter[1].setSampleRate(float(sampleRate));
+	NotchFilter[1].setSampleRate(float(sampleRate));*/
+
+	for (int i = 0; i < kNumFilterTypes; i++)
+	{
+		for (int j = 0; j < 2; j++)
+		{
+			Filters[i*2+j]->setSampleRate(sampleRate);
+		}
+	}
 }
 
 void NewProjectAudioProcessor::releaseResources()
@@ -196,32 +225,33 @@ void NewProjectAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuff
 
 			float* channelData = buffer.getWritePointer(channel);
 
+			Filters[filterType->getIndex()*2+channel]->setFilter(*cutoff, *reso);
+			channelData[inputSample] = Filters[filterType->getIndex()*2+channel]->filter(channelData[inputSample]);
 
+			//if (filterType->getIndex() == kLowPass) {
+			//	LowPassFilter[channel].setFilter(*cutoff, *reso);
+			//	channelData[inputSample] = LowPassFilter[channel].filter(channelData[inputSample]);
+			//}
+			//else if (filterType->getIndex() == 1) {
+			//	HighPassFilter[channel].setFilter(*cutoff, *reso);
+			//	channelData[inputSample] = HighPassFilter[channel].filter(channelData[inputSample]);
 
-			if (filterType->getIndex() == 0) {
-				LowPassFilter[channel].setFilter(*cutoff, *reso);
-				channelData[inputSample] = LowPassFilter[channel].filter(channelData[inputSample]);
-			}
-			else if (filterType->getIndex() == 1) {
-				HighPassFilter[channel].setFilter(*cutoff, *reso);
-				channelData[inputSample] = HighPassFilter[channel].filter(channelData[inputSample]);
+			//}
+			//else if (filterType->getIndex() == 2) {
+			//	NotchFilter[channel].setFilter(*cutoff, *reso);
+			//	channelData[inputSample] = NotchFilter[channel].filter(channelData[inputSample]);
 
-			}
-			else if (filterType->getIndex() == 2) {
-				NotchFilter[channel].setFilter(*cutoff, *reso);
-				channelData[inputSample] = NotchFilter[channel].filter(channelData[inputSample]);
+			//}
+			//else if (filterType->getIndex() == 3) {
+			//	BandPassFilter1[channel].setFilter(*cutoff, *reso);
+			//	channelData[inputSample] = BandPassFilter1[channel].filter(channelData[inputSample]);
 
-			}
-			else if (filterType->getIndex() == 3) {
-				BandPassFilter1[channel].setFilter(*cutoff, *reso);
-				channelData[inputSample] = BandPassFilter1[channel].filter(channelData[inputSample]);
+			//}
+			//else if (filterType->getIndex() == 4) {
+			//	BandPassFilter2[channel].setFilter(*cutoff, *reso);
+			//	channelData[inputSample] = BandPassFilter2[channel].filter(channelData[inputSample]);
 
-			}
-			else if (filterType->getIndex() == 4) {
-				BandPassFilter2[channel].setFilter(*cutoff, *reso);
-				channelData[inputSample] = BandPassFilter2[channel].filter(channelData[inputSample]);
-
-			}
+			//}
 		}
 	}
 
@@ -263,41 +293,47 @@ Array<float> NewProjectAudioProcessor::getFrequencyResponse()
 {
 	frequencyResponse.clearQuick();
 
-	if (filterType->getIndex() == 0) 
+	for (int i = 0; i < frequencies.size(); i++)
 	{
-		for (int i =0; i<frequencies.size(); i++)
-		{
-			frequencyResponse.add(LowPassFilter[0].getFreqencyResponse(frequencies[i]));
-		}
+		frequencyResponse.add(Filters[filterType->getIndex()*2]->getFreqencyResponse(frequencies[i]));
 	}
-	else if (filterType->getIndex() == 1)
-	{
-		for (int i = 0; i<frequencies.size(); i++)
-		{
-			frequencyResponse.add(HighPassFilter[0].getFreqencyResponse(frequencies[i]));
-		}
-	}
-	else if (filterType->getIndex() == 2)
-	{
-		for (int i = 0; i<frequencies.size(); i++)
-		{
-			frequencyResponse.add(NotchFilter[0].getFreqencyResponse(frequencies[i]));
-		}
-	}
-	else if (filterType->getIndex() == 3)
-	{
-		for (int i = 0; i<frequencies.size(); i++)
-		{
-			frequencyResponse.add(BandPassFilter1[0].getFreqencyResponse(frequencies[i]));
-		}
-	}
-	else if (filterType->getIndex() == 4)
-	{
-		for (int i = 0; i<frequencies.size(); i++)
-		{
-			frequencyResponse.add(BandPassFilter2[0].getFreqencyResponse(frequencies[i]));
-		}
-	}
+
+
+	//if (filterType->getIndex() == 0) 
+	//{
+	//	for (int i =0; i<frequencies.size(); i++)
+	//	{
+	//		frequencyResponse.add(LowPassFilter[0].getFreqencyResponse(frequencies[i]));
+	//	}
+	//}
+	//else if (filterType->getIndex() == 1)
+	//{
+	//	for (int i = 0; i<frequencies.size(); i++)
+	//	{
+	//		frequencyResponse.add(HighPassFilter[0].getFreqencyResponse(frequencies[i]));
+	//	}
+	//}
+	//else if (filterType->getIndex() == 2)
+	//{
+	//	for (int i = 0; i<frequencies.size(); i++)
+	//	{
+	//		frequencyResponse.add(NotchFilter[0].getFreqencyResponse(frequencies[i]));
+	//	}
+	//}
+	//else if (filterType->getIndex() == 3)
+	//{
+	//	for (int i = 0; i<frequencies.size(); i++)
+	//	{
+	//		frequencyResponse.add(BandPassFilter1[0].getFreqencyResponse(frequencies[i]));
+	//	}
+	//}
+	//else if (filterType->getIndex() == 4)
+	//{
+	//	for (int i = 0; i<frequencies.size(); i++)
+	//	{
+	//		frequencyResponse.add(BandPassFilter2[0].getFreqencyResponse(frequencies[i]));
+	//	}
+	//}
 		
 	return frequencyResponse;
 }

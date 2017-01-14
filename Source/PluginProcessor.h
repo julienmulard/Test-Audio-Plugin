@@ -62,6 +62,7 @@ public:
 
 
 	enum paramIndex {kCutoff = 0, kReso, kFilterType};
+	enum filterTypeIndex { kLowPass = 0, kHighPass, kNotch, kBandPass1, kBandPass2, kNumFilterTypes };
 
 	Array<float> frequencyResponse;
 	Array<float> frequencies;
@@ -69,11 +70,13 @@ public:
 	Array<float> getFrequencyResponse();
 
 private:
-	MyLowPassFilter LowPassFilter[2];
-	MyHighPassFilter HighPassFilter[2];
-	MyNotchFilter NotchFilter[2];
-	MyBandPassFilter1 BandPassFilter1[2];
-	MyBandPassFilter2 BandPassFilter2[2];
+	//MyLowPassFilter LowPassFilter[2];
+	//MyHighPassFilter HighPassFilter[2];
+	//MyNotchFilter NotchFilter[2];
+	//MyBandPassFilter1 BandPassFilter1[2];
+	//MyBandPassFilter2 BandPassFilter2[2];
+
+	MyFilter ** Filters;
 
 	AudioParameterFloat* cutoff;
 	AudioParameterFloat* reso;

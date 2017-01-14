@@ -1,7 +1,7 @@
 #include "MyNotchFilter.h"
 
 MyNotchFilter::MyNotchFilter(float cutoff, float Q, float sampleRate) : MyFilter(cutoff, Q, sampleRate) {
-
+	mComputeFilterCoefficients();
 }
 
 MyNotchFilter::~MyNotchFilter() {

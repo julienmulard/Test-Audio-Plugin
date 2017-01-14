@@ -2,7 +2,7 @@
 
 
 MyBandPassFilter1::MyBandPassFilter1(float cutoff, float Q, float sampleRate) : MyFilter(cutoff, Q, sampleRate) {
-
+	mComputeFilterCoefficients();
 }
 
 MyBandPassFilter1::~MyBandPassFilter1() {

@@ -10,11 +10,11 @@ public:
 
 	~MyFilter();
 
-	void setCutoff(float cutoff);
-	void setQ(float Q);
-	void setFilter(float cutoff, float Q);
+	virtual void setCutoff(float cutoff);
+	virtual void setQ(float Q);
+	virtual void setFilter(float cutoff, float Q);
 
-	void setSampleRate(float sampleRate);
+	virtual void setSampleRate(float sampleRate);
 
 	float filter(float input);
 
@@ -43,7 +43,7 @@ protected:
 	float mMemOut[2];
 
 	//Methods
-	virtual void mComputeFilterCoefficients();
+	virtual void mComputeFilterCoefficients() =0;
 	
 
 };

@@ -2,7 +2,7 @@
 
 
 MyLowPassFilter::MyLowPassFilter(float cutoff, float Q, float sampleRate) : MyFilter(cutoff, Q, sampleRate) {
-
+	mComputeFilterCoefficients();
 }
 
 MyLowPassFilter::~MyLowPassFilter() {
