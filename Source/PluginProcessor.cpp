@@ -102,11 +102,13 @@ NewProjectAudioProcessor::NewProjectAudioProcessor()
 
 	frequencyResponse = { 0 };
 	
+	int num_point = 1000;
+
 	float log_start = log(20);
 	float log_stop = log(22049);
-	float step = exp((log_stop - log_start)*0.01);	
+	float step = exp((log_stop - log_start)*1/float(num_point));	
 	frequencies.add(20);
-	for (int i = 1; i < 100; i++) {
+	for (int i = 1; i < num_point; i++) {
 		frequencies.add(frequencies[i-1]*step);
 
 	}
@@ -385,4 +387,12 @@ Array<float> NewProjectAudioProcessor::getFrequencyResponse()
 	//}
 		
 	return frequencyResponse;
+}
+
+void NewProjectAudioProcessor::refreshFilterForDisplay() 
+{
+	for (int order = 0; order < int(*filterOrder); order++)
+	{
+		Filters[filterType->getIndex()][order][0]->setFilter(*cutoff, *reso);
+	}
 }

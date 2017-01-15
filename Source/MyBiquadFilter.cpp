@@ -36,10 +36,14 @@ void MyBiquadFilter::setQ(float Q)
 
 void MyBiquadFilter::setFilter(float cutoff, float Q)
 {
-	mCutoffFrequency = cutoff;
-	mQ = Q;
-	m1_Q = 1.0f / mQ;
-	mComputeFilterCoefficients();
+	if (cutoff != mCutoffFrequency || Q != mQ) {
+		mCutoffFrequency = cutoff;
+		mQ = Q;
+		m1_Q = 1.0f / mQ;
+		mComputeFilterCoefficients();
+	}
+	
+	
 }
 
 

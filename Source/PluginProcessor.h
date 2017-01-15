@@ -69,6 +69,8 @@ public:
 
 	Array<float> getFrequencyResponse();
 
+	void refreshFilterForDisplay();
+
 private:
 	//MyLowPassFilter LowPassFilter[2];
 	//MyHighPassFilter HighPassFilter[2];

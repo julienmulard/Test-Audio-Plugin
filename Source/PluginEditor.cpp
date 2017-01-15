@@ -148,6 +148,7 @@ void NewProjectAudioProcessorEditor::sliderValueChanged(Slider* slider)
 		const AudioParameterFloat* cutoff = dynamic_cast<AudioParameterFloat*> (params[processor.kCutoff]);
 
 		*param = (float)slider->getValue();
+		processor.refreshFilterForDisplay();
 		spectrumDisplay.setFilterResponsePath(processor.frequencies, processor.getFrequencyResponse(),*cutoff);
 	}
 }
@@ -163,6 +164,7 @@ void NewProjectAudioProcessorEditor::comboBoxChanged(ComboBox* comboBox)
 
 		AudioParameterChoice* param = dynamic_cast<AudioParameterChoice*> (params[processor.kFilterType]);
 		*param = comboBox->getSelectedId()-1;
+		processor.refreshFilterForDisplay();
 		spectrumDisplay.setFilterResponsePath(processor.frequencies, processor.getFrequencyResponse(), *cutoff);
 	}
 }

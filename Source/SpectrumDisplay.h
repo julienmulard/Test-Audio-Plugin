@@ -21,7 +21,7 @@ private:
 	float mMin_amp;
 	float mMax_amp;
 
-	FrequencyResponseDisplay frequencyResponseDisplay;
+	FrequencyResponseDisplay *frequencyResponseDisplay;
 		
 	//Path filterResponse;
 

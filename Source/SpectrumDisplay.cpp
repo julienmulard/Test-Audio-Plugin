@@ -7,11 +7,14 @@ SpectrumDisplay::SpectrumDisplay(float min_freq, float max_freq, float min_amp, 
 	mMin_amp = min_amp;
 	mMax_amp = max_amp;
 
+	frequencyResponseDisplay = new FrequencyResponseDisplay(mMin_freq, mMax_freq, mMin_amp, mMax_amp);
+
 	addAndMakeVisible(frequencyResponseDisplay);
 }
 
 SpectrumDisplay::~SpectrumDisplay()
 {
+	delete frequencyResponseDisplay;
 }
 
 void SpectrumDisplay::paint(Graphics &g)
@@ -26,10 +29,10 @@ void SpectrumDisplay::paint(Graphics &g)
 	g.fillRect(0.0f, 0.0f, float(getWidth()), float(getHeight()));
 
 
-	float offset_x_l = 5;
-	float offset_x_r = 5;
-	float offset_y_u = 5;
-	float offset_y_d = 5;
+	float offset_x_l = 0;
+	float offset_x_r = 0;
+	float offset_y_u = 0;
+	float offset_y_d = 0;
 
 	float freq_offset = log10f(mMin_freq); //offset des valeurs de fréquences (on est en log, on ne peux pas partir de 0)
 	float freq_gain = (w - offset_x_r) / (log10f(mMax_freq) - freq_offset);
@@ -61,11 +64,11 @@ void SpectrumDisplay::paint(Graphics &g)
 
 void SpectrumDisplay::resized()
 {
-	frequencyResponseDisplay.setBounds(0, 0, getWidth(), getHeight());
+	frequencyResponseDisplay->setBounds(0, 0, getWidth(), getHeight());
 }
 
 void SpectrumDisplay::setFilterResponsePath(Array<float> frequencies, Array<float> amplitudes, float cutoff)
 {
-	frequencyResponseDisplay.setFilterResponsePath(frequencies, amplitudes,cutoff);
+	frequencyResponseDisplay->setFilterResponsePath(frequencies, amplitudes,cutoff);
 	
 }
