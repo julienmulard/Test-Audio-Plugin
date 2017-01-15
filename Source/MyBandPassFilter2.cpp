@@ -1,7 +1,7 @@
 #include "MyBandPassFilter2.h"
 
 
-MyBandPassFilter2::MyBandPassFilter2(float cutoff, float Q, float sampleRate) : MyFilter(cutoff, Q, sampleRate) {
+MyBandPassFilter2::MyBandPassFilter2(float cutoff, float Q, float sampleRate) : MyBiquadFilter(cutoff, Q, sampleRate) {
 	mComputeFilterCoefficients();
 }
 

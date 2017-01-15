@@ -1,6 +1,6 @@
 #include "MyNotchFilter.h"
 
-MyNotchFilter::MyNotchFilter(float cutoff, float Q, float sampleRate) : MyFilter(cutoff, Q, sampleRate) {
+MyNotchFilter::MyNotchFilter(float cutoff, float Q, float sampleRate) : MyBiquadFilter(cutoff, Q, sampleRate) {
 	mComputeFilterCoefficients();
 }
 

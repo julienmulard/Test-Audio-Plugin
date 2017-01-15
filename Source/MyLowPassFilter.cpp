@@ -1,7 +1,7 @@
 #include "MyLowPassFilter.h"
 
 
-MyLowPassFilter::MyLowPassFilter(float cutoff, float Q, float sampleRate) : MyFilter(cutoff, Q, sampleRate) {
+MyLowPassFilter::MyLowPassFilter(float cutoff, float Q, float sampleRate) : MyBiquadFilter(cutoff, Q, sampleRate) {
 	mComputeFilterCoefficients();
 }
 

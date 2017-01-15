@@ -344,7 +344,7 @@ Array<float> NewProjectAudioProcessor::getFrequencyResponse()
 
 	for (int i = 0; i < frequencies.size(); i++)
 	{
-		frequencyResponse.add(Filters[filterType->getIndex()][0][0]->getFreqencyResponse(frequencies[i],int(*filterOrder)));
+		frequencyResponse.add(Filters[filterType->getIndex()][0][0]->getFrequencyResponse(frequencies[i],int(*filterOrder)));
 	}
 
 
