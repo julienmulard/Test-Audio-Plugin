@@ -37,6 +37,11 @@ NewProjectAudioProcessorEditor::NewProjectAudioProcessorEditor (NewProjectAudioP
 	if (const AudioParameterFloat* paramf = dynamic_cast<AudioParameterFloat*> (params[p.kFilterOrder])) {
 		createSliderForParam(paramf);
 	}
+	
+	if (const AudioParameterFloat* paramf = dynamic_cast<AudioParameterFloat*> (params[p.kFeedbackGain])) {
+		createSliderForParam(paramf);
+		paramSliders[p.kFeedbackGain]->setVisible(false);
+	}
 
 	if (const AudioParameterChoice* paramc = dynamic_cast<AudioParameterChoice*> (params[p.kFilterType])) {
 		filterTypeCB = new ComboBox(paramc->name);
@@ -127,6 +132,7 @@ void NewProjectAudioProcessorEditor::resized()
 	paramSliders[processor.kCutoff]->setBounds(5, 5, 100, 50);
 	paramSliders[processor.kReso]->setBounds(105, 5, 100, 50);
 	paramSliders[processor.kFilterOrder]->setBounds(210, 5, 100, 50);
+	paramSliders[processor.kFeedbackGain]->setBounds(105, 5, 100, 50);
 
 	filterTypeCB->setBounds(315, 15, 100, 20);
 
@@ -159,12 +165,29 @@ void NewProjectAudioProcessorEditor::comboBoxChanged(ComboBox* comboBox)
 	const OwnedArray<AudioProcessorParameter>& params = processor.getParameters();
 	if (comboBox == filterTypeCB) 
 	{
-		const OwnedArray<AudioProcessorParameter>& params = getAudioProcessor()->getParameters();
-		const AudioParameterFloat* cutoff = dynamic_cast<AudioParameterFloat*> (params[processor.kCutoff]);
 
+		//On récupère le paramètre modifié
+		const OwnedArray<AudioProcessorParameter>& params = getAudioProcessor()->getParameters();
 		AudioParameterChoice* param = dynamic_cast<AudioParameterChoice*> (params[processor.kFilterType]);
+	
+		//On stocke son ancienne valeur;
+		int oldValue = param->getIndex();
+
+		//On modifie sa valeur
 		*param = comboBox->getSelectedId()-1;
+
+		//Dans certains cas, il faut changer les potards
+		if (param->getIndex() == processor.kComb)
+		{
+			paramSliders[processor.kReso]->setVisible(false);
+			paramSliders[processor.kFeedbackGain]->setVisible(true);
+		}
+		
+		//On calcule les coefficients du filtre avec les nouveaux paramètres pour être sûr de tracer le bon spectre d'amplitude
 		processor.refreshFilterForDisplay();
+		
+		//On calcule le spectre d'amplitude et on demande gentiment à le retracer quand il y aura l'occasion
+		const AudioParameterFloat* cutoff = dynamic_cast<AudioParameterFloat*> (params[processor.kCutoff]);
 		spectrumDisplay.setFilterResponsePath(processor.frequencies, processor.getFrequencyResponse(), *cutoff);
 	}
 }

@@ -28,10 +28,10 @@ NewProjectAudioProcessor::NewProjectAudioProcessor()
 
 	addParameter(cutoff = new AudioParameterFloat("cutoff", "Cutoff", NormalisableRange<float>(20.0f, 22000.0f, 0.0f, 0.2f), 1000.0f));
 	addParameter(reso = new AudioParameterFloat("reso", "Resonnance", NormalisableRange<float>(0.5f, 3.0f, 0.0f), 0.5f));
-	
 	addParameter(filterOrder = new AudioParameterFloat("filterOrder", "Filter Order", NormalisableRange<float>(1.0f, 4.0f, 1.0f), 1.0f));
+	addParameter(feedbackGain = new AudioParameterFloat("feedbackGain", "Feedback Gain", NormalisableRange<float>(-0.99f, 0.99f, 0.0f), 0.0f));
 
-	StringArray filterTypeList = { "Low Pass Filter", "High Pass Filter", "Notch Filter", "Band Pass Filter (gain = Q)", "Band Pass Filter (fixed gain)" };
+	StringArray filterTypeList = { "Low Pass Filter", "High Pass Filter", "Notch Filter", "Band Pass Filter (gain = Q)", "Band Pass Filter (fixed gain)", "IIR Comb Filter"};
 	addParameter(filterType = new AudioParameterChoice("filterType", "FilterType", filterTypeList ,0));
 
 	//LowPassFilter[0] = MyLowPassFilter(*cutoff, *reso, 44100);
@@ -82,6 +82,11 @@ NewProjectAudioProcessor::NewProjectAudioProcessor()
 				case kBandPass2:
 					Filters[type][order][0] = new MyBandPassFilter2(*cutoff, *reso, 44100);
 					Filters[type][order][1] = new MyBandPassFilter2(*cutoff, *reso, 44100);
+					break;
+
+				case kComb:
+					Filters[type][order][0] = new MyCombFilter(*cutoff, *feedbackGain, 44100);
+					Filters[type][order][1] = new MyCombFilter(*cutoff, *feedbackGain, 44100);
 					break;
 			}
 		}
@@ -276,8 +281,17 @@ void NewProjectAudioProcessor::processBlock (AudioSampleBuffer& buffer, MidiBuff
 
 			for (int order = 0; order < int(*filterOrder); order++)
 			{
-				Filters[filterType->getIndex()][order][channel]->setFilter(*cutoff, *reso);
-				channelData[inputSample] = Filters[filterType->getIndex()][order][channel]->filter(channelData[inputSample]);
+				if (filterType->getIndex() != kComb)
+				{
+					Filters[filterType->getIndex()][order][channel]->setFilter(*cutoff, *reso);
+					channelData[inputSample] = Filters[filterType->getIndex()][order][channel]->filter(channelData[inputSample]);
+				}
+				else
+				{
+					Filters[filterType->getIndex()][order][channel]->setFilter(*cutoff, *feedbackGain);
+					channelData[inputSample] = Filters[filterType->getIndex()][order][channel]->filter(channelData[inputSample]);
+				}
+				
 			}
 			//if (filterType->getIndex() == kLowPass) {
 			//	LowPassFilter[channel].setFilter(*cutoff, *reso);
@@ -389,10 +403,20 @@ Array<float> NewProjectAudioProcessor::getFrequencyResponse()
 	return frequencyResponse;
 }
 
-void NewProjectAudioProcessor::refreshFilterForDisplay() 
+void NewProjectAudioProcessor::refreshFilterForDisplay()
 {
-	for (int order = 0; order < int(*filterOrder); order++)
+	if (filterType->getIndex() != kComb)
 	{
-		Filters[filterType->getIndex()][order][0]->setFilter(*cutoff, *reso);
+		for (int order = 0; order < int(*filterOrder); order++)
+		{
+			Filters[filterType->getIndex()][order][0]->setFilter(*cutoff, *reso);
+		}
+	}
+	else
+	{
+		for (int order = 0; order < int(*filterOrder); order++)
+		{
+			Filters[filterType->getIndex()][order][0]->setFilter(*cutoff, *feedbackGain);
+		}
 	}
 }

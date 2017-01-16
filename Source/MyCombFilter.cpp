@@ -25,7 +25,7 @@ void MyCombFilter::setSampleRate(float sampleRate)
 void MyCombFilter::setCutoff(float cutoff)
 {
 	mCutoffFrequency = cutoff;
-	mTauSample = int(mCutoffFrequency*m1_Fs+0.5);
+	mTauSample = int(mSampleRate/mCutoffFrequency+0.5);
 
 }
 

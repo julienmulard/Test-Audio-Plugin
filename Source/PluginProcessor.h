@@ -17,7 +17,7 @@
 #include "MyNotchFilter.h"
 #include "MyBandPassFilter1.h"
 #include "MyBandPassFilter2.h"
-
+#include "MyCombFilter.h"
 //==============================================================================
 /**
 */
@@ -61,8 +61,8 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
 
-	enum paramIndex {kCutoff = 0, kReso, kFilterOrder, kFilterType};
-	enum filterTypeIndex { kLowPass = 0, kHighPass, kNotch, kBandPass1, kBandPass2, kNumFilterTypes };
+	enum paramIndex {kCutoff = 0, kReso, kFilterOrder, kFeedbackGain, kFilterType};
+	enum filterTypeIndex { kLowPass = 0, kHighPass, kNotch, kBandPass1, kBandPass2, kComb , kNumFilterTypes };
 
 	Array<float> frequencyResponse;
 	Array<float> frequencies;
@@ -84,8 +84,8 @@ private:
 
 	AudioParameterFloat* cutoff;
 	AudioParameterFloat* reso;
-
 	AudioParameterFloat* filterOrder;
+	AudioParameterFloat* feedbackGain;
 
 	AudioParameterChoice* filterType;
     //==============================================================================
