@@ -60,28 +60,34 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-
+	//==============================================================================
+	
+	//enum des différents paramètres du filtre, à mettre à jour si on rajoute un paramètre (attention à l'ordre!)
 	enum paramIndex {kCutoff = 0, kReso, kFilterOrder, kFeedbackGain, kFilterType};
+
+	//enum des différents types de filtres, à mettre à jour si on rajoute un nouveau filtre (attention à l'ordre!)
 	enum filterTypeIndex { kLowPass = 0, kHighPass, kNotch, kBandPass1, kBandPass2, kComb , kNumFilterTypes };
 
-	Array<float> frequencyResponse;
+	//Vecteur des fréquences auxquelles on mesure le spectre d'amplitude
 	Array<float> frequencies;
 
+	//Vecteur des amplitudes du spectre d'amplitude (fonctionne de paire avec "frequencies")
+	Array<float> frequencyResponse;
+	
+	//Fonction qui calcule le spectre d'amplitude du filtre.
 	Array<float> getFrequencyResponse();
 
+	//Fonction qui met à jour le filtre pour pouvoir tracer le spectre d'amplitude le plus précisement possible.
 	void refreshFilterForDisplay();
 
 private:
-	//MyLowPassFilter LowPassFilter[2];
-	//MyHighPassFilter HighPassFilter[2];
-	//MyNotchFilter NotchFilter[2];
-	//MyBandPassFilter1 BandPassFilter1[2];
-	//MyBandPassFilter2 BandPassFilter2[2];
 
 	const int maxFilterOrder = 4;
 
+	//Un tableau de pointeurs de filtres, rangés par type, ordre et canal audio;
 	MyFilter **** Filters;
 
+	//Les paramètres du plugin, avec en premier lieux les paramètres flotant, puis le reste.
 	AudioParameterFloat* cutoff;
 	AudioParameterFloat* reso;
 	AudioParameterFloat* filterOrder;
