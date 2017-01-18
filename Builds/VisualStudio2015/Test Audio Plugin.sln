@@ -1,6 +1,8 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2015
-Project("{79B6AFB7-12BC-2DE4-A867-F697922EF987}") = "Test Audio Plugin", "Test Audio Plugin.vcxproj", "{DEC0C930-4AA1-6CA4-78A1-B8374A8410A8}"
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test Audio Plugin", "Test Audio Plugin.vcxproj", "{DEC0C930-4AA1-6CA4-78A1-B8374A8410A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

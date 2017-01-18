@@ -133,7 +133,15 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\FrequencyResponseDisplay.cpp" />
+    <ClCompile Include="..\..\Source\MyBandPassFilter1.cpp" />
+    <ClCompile Include="..\..\Source\MyBandPassFilter2.cpp" />
+    <ClCompile Include="..\..\Source\MyBiquadFilter.cpp" />
+    <ClCompile Include="..\..\Source\MyCombFilter.cpp" />
+    <ClCompile Include="..\..\Source\MyFilter.cpp" />
+    <ClCompile Include="..\..\Source\MyHighPassFilter.cpp" />
     <ClCompile Include="..\..\Source\MyLowPassFilter.cpp" />
+    <ClCompile Include="..\..\Source\MyNotchFilter.cpp" />
     <ClCompile Include="..\..\Source\PluginProcessor.cpp" />
     <ClCompile Include="..\..\Source\PluginEditor.cpp" />
     <ClCompile Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
@@ -1789,9 +1797,18 @@
     <ClCompile Include="..\..\JuceLibraryCode\juce_gui_extra.cpp" />
     <ClCompile Include="..\..\JuceLibraryCode\juce_opengl.cpp" />
     <ClCompile Include="..\..\JuceLibraryCode\juce_video.cpp" />
+    <ClCompile Include="..\..\Source\SpectrumDisplay.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\FrequencyResponseDisplay.h" />
+    <ClInclude Include="..\..\Source\MyBandPassFilter1.h" />
+    <ClInclude Include="..\..\Source\MyBandPassFilter2.h" />
+    <ClInclude Include="..\..\Source\MyBiquadFilter.h" />
+    <ClInclude Include="..\..\Source\MyCombFilter.h" />
+    <ClInclude Include="..\..\Source\MyFilter.h" />
+    <ClInclude Include="..\..\Source\MyHighPassFilter.h" />
     <ClInclude Include="..\..\Source\MyLowPassFilter.h" />
+    <ClInclude Include="..\..\Source\MyNotchFilter.h" />
     <ClInclude Include="..\..\Source\PluginProcessor.h" />
     <ClInclude Include="..\..\Source\PluginEditor.h" />
     <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.h" />
@@ -2439,6 +2456,7 @@
     <ClInclude Include="..\..\..\..\..\JUCE\JUCE\modules\juce_video\juce_video.h" />
     <ClInclude Include="..\..\JuceLibraryCode\AppConfig.h" />
     <ClInclude Include="..\..\JuceLibraryCode\JuceHeader.h" />
+    <ClInclude Include="..\..\Source\SpectrumDisplay.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\..\..\JUCE\JUCE\modules\juce_audio_formats\codecs\flac\Flac Licence.txt" />
